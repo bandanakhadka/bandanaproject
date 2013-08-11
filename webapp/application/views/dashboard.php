@@ -23,7 +23,7 @@
 		?>
 
 	<div id="dashboard">
-	 
+
 	    <p class="heading"><h4>Welcome!</h4></p>
 
 		<p>
@@ -54,8 +54,14 @@
 			<?php echo "Organization: ".$member->organization->name;?>
 		</p>
 
-		<p></p>
+		<p>
+			<a href="dashboard/enroll_course"><h3>Enroll in a Course</h3></a>
+		</p>
 
+		<p>
+			<a href="dashboard/unenroll"><h3>UnEnroll a Course</h3></a>
+		</p>		
+	
 		<p></p>
 
 		<p>

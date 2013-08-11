@@ -37,6 +37,13 @@ class Member extends ActiveRecord\Model
             'foreign_key'=>'organization_id')
     );
 
+    static $has_many = array(
+        array(
+        'enrollments',
+        'class_name'=>'Enrollment',
+        'foreign_key'=>'member_id')
+    );
+
     public function set_first_name($first_name)
 	{
         if($first_name=='')
@@ -97,6 +104,11 @@ class Member extends ActiveRecord\Model
     	$this->assign_attribute('email',$email);
     }
 
+    public function set_organization($organization)
+    {
+        $this->assign_attribute('organization_id',$organization->id);
+    }
+
     public function get_first_name()
 	{
     	return $this->read_attribute('first_name');
@@ -115,11 +127,6 @@ class Member extends ActiveRecord\Model
     public function get_email()
 	{
     	return $this->read_attribute('email');
-    }
-
-    public function set_organization($organization)
-    {
-        $this->assign_attribute('organization_id',$organization->id);
     }
 
     public static function create($data)
