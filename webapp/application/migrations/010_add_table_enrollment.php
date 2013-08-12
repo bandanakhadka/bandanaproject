@@ -18,7 +18,10 @@ class Migration_Add_table_enrollment extends CI_Migration
 				'type'=>'int',
 				'constraint'=>5
 				),
-			'enrolled_at'=>array(
+			'created_at'=>array(
+				'type'=>'datetime'
+				),
+			'updated_at'=>array(
 				'type'=>'datetime')
 			);
 

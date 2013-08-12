@@ -22,7 +22,11 @@ class Organization extends ActiveRecord\Model
         array(
         'members',
         'class_name'=>'Member',
-        'foreign_key'=>'organization_id')
+        'foreign_key'=>'organization_id'),
+        array(
+        'courses',
+        'class_name'=>'Course',
+        'foreign_key'=>'org_id')
     );
 
     public function set_name($name)

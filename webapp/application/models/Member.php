@@ -18,6 +18,9 @@ class BlankContactException extends Exception
 class BlankEmailException extends Exception
 {}
 
+class BlankOrganizationException extends Exception
+{}
+
 class Member extends ActiveRecord\Model
 {
 
@@ -41,7 +44,8 @@ class Member extends ActiveRecord\Model
         array(
         'enrollments',
         'class_name'=>'Enrollment',
-        'foreign_key'=>'member_id')
+        'foreign_key'=>'member_id'
+        /*'conditions'=> array('is_deleted'=>0)*/)
     );
 
     public function set_first_name($first_name)
@@ -106,6 +110,10 @@ class Member extends ActiveRecord\Model
 
     public function set_organization($organization)
     {
+        if(!$organization)
+        {
+            throw new BlankOrganizationException("Please select an Organization!");                
+        }
         $this->assign_attribute('organization_id',$organization->id);
     }
 

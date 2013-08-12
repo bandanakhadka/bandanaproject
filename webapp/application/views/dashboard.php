@@ -55,6 +55,15 @@
 		</p>
 
 		<p>
+			<?php echo "Courses Enrolled: ";
+			foreach ($courses as $course)
+			{
+				echo $course->course_name." ";
+			}
+			?>
+		</p>
+
+		<p>
 			<a href="dashboard/enroll_course"><h3>Enroll in a Course</h3></a>
 		</p>
 
