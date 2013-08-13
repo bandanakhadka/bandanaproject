@@ -63,9 +63,24 @@ class Enrollment extends ActiveRecord\Model
 
     public function delete()
     {
-
         $this->is_active = 0;
         $this->is_deleted = 1;
+
+        $this->save();
+    }
+
+    public function deactivate()
+    {
+        $this->is_active = 0;
+        $this->is_deleted = 0;
+
+        $this->save();
+    }
+
+    public function activate()
+    {
+        $this->is_active = 1;
+        $this->is_deleted = 0;
 
         $this->save();
     }

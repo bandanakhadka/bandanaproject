@@ -1,5 +1,3 @@
-Organization added successfully!!
-
 <!DOCTYPE html>
 	<html lang="en">
 	<head>
@@ -36,7 +34,7 @@ Organization added successfully!!
 					<td width="150"><?php echo $organization->address;?></td>
 					<td width="100"><?php echo $organization->telephone;?></td>
 					<td width="150"><?php echo $organization->email;?></td>
-					<td width="50"><a href="view_members/<?php echo $organization->id;?>">View Members</a></td>
+					<td width="50"><a href="organizations/view_members/<?php echo $organization->id;?>">View Members</a></td>
 				</tr>
 				<?php } ?>				
 			</table>
@@ -45,5 +43,7 @@ Organization added successfully!!
 		
 		
 	</div>
+	<p></p>
+		<a href="organizations/add_courses/<?php echo $current_org->id;?>"><h4>Add Courses</h4></a>
 	</body>
 	</html>

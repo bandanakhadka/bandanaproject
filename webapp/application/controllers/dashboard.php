@@ -39,7 +39,7 @@ class Dashboard extends CI_Controller
 		if($_SERVER['REQUEST_METHOD'] !== 'POST')
 		{
 			$list['courses'] = Course::list_available($member->organization_id);
-			$list['flag'] = 1;
+			$list['flag'] = 0;
 
 			return $this->load->view('enroll_form',$list);
 		}	
@@ -60,7 +60,7 @@ class Dashboard extends CI_Controller
 		{
 			$list['message'] = $e->getMessage();
             $list['courses'] = Course::list_available($member->organization_id);
-            $list['flag'] = 1;
+            $list['flag'] = 0;
 
             return $this->load->view('enroll_form',$list);
 		}
@@ -69,7 +69,7 @@ class Dashboard extends CI_Controller
 		{
 			$list['message'] = $e->getMessage();
             $list['courses'] = Course::list_available($member->organization_id);
-            $list['flag'] = 1;
+            $list['flag'] = 0;
 
             return $this->load->view('enroll_form',$list);
 		}
@@ -88,20 +88,67 @@ class Dashboard extends CI_Controller
 			{
 				$enroll[] = $enrollment->course;
 			}
-
 			$list['courses'] = $enroll;*/
 
-			$list['courses'] = Course::list_enrolled($this->session->userdata('member_id'),$member->organization_id);
-			$list['flag'] = 0;
+			$list['courses'] = Course::list_enrolled($this->session->userdata('member_id'));
+			$list['flag'] = 1;
 
 			return $this->load->view('enroll_form',$list);
 		}
 		
-		$enrollment = Enrollment::find_by_course_id_and_member_id($_POST['course_id'],$this->session->userdata['member_id']);
+		$enrollment = Enrollment::find_by_course_id_and_member_id_and_is_deleted($_POST['course_id'],$this->session->userdata['member_id'],0);
 
 		if($enrollment)
 		{
 			$enrollment->delete();
+		}
+
+		redirect('dashboard');
+				
+	}
+
+	public function deactivate()
+	{
+		if($_SERVER['REQUEST_METHOD'] !== 'POST')
+		{
+			$member_id = $this->session->userdata('member_id');
+			$member = Member::find_by_id($member_id);
+
+			$list['courses'] = Course::list_enrolled($this->session->userdata('member_id'));
+			$list['flag'] = 2;
+
+			return $this->load->view('enroll_form',$list);
+		}
+		
+		$enrollment = Enrollment::find_by_course_id_and_member_id_and_is_deleted_and_is_active($_POST['course_id'],$this->session->userdata['member_id'],0,1);
+
+		if($enrollment)
+		{
+			$enrollment->deactivate();
+		}
+
+		redirect('dashboard');
+				
+	}
+
+	public function activate()
+	{
+		if($_SERVER['REQUEST_METHOD'] !== 'POST')
+		{
+			$member_id = $this->session->userdata('member_id');
+			$member = Member::find_by_id($member_id);
+
+			$list['courses'] = Course::list_deactivated($this->session->userdata('member_id'));
+			$list['flag'] = 3;
+
+			return $this->load->view('enroll_form',$list);
+		}
+		
+		$enrollment = Enrollment::find_by_course_id_and_member_id_and_is_deleted_and_is_active($_POST['course_id'],$this->session->userdata['member_id'],0,0);
+
+		if($enrollment)
+		{
+			$enrollment->activate();
 		}
 
 		redirect('dashboard');

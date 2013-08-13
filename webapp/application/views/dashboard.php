@@ -55,10 +55,12 @@
 		</p>
 
 		<p>
-			<?php echo "Courses Enrolled: ";
+			<?php echo "Courses Enrolled: &nbsp;&nbsp;";
+			$i = 1;
 			foreach ($courses as $course)
 			{
-				echo $course->course_name." ";
+				echo $i.". ".$course->course_name."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+				$i++;
 			}
 			?>
 		</p>
@@ -68,7 +70,15 @@
 		</p>
 
 		<p>
-			<a href="dashboard/unenroll"><h3>UnEnroll a Course</h3></a>
+			<a href="dashboard/unenroll"><h3>Unenroll an enrolled Course</h3></a>
+		</p>
+
+		<p>
+			<a href="dashboard/deactivate"><h3>Deactivate a Course</h3></a>
+		</p>
+
+		<p>
+			<a href="dashboard/activate"><h3>Activate a deactivated Course</h3></a>
 		</p>		
 	
 		<p></p>

@@ -11,15 +11,12 @@ class Courses extends CI_Controller
         {
             return $this->load->view('course_form',$list);   
         }
-
-        $organization = Organization::find_by_id($_POST['organization_id']);
-        
+       
         $data = array(
             'course_code' => $_POST['course_code'],
             'course_name' => $_POST['course_name'],
             'duration_in_hrs' => $_POST['duration_in_hrs'],
             'category' => $_POST['category'],
-            'organization' => $organization
         );
 		
         try
@@ -49,13 +46,6 @@ class Courses extends CI_Controller
         }
 
         catch(BlankCategoryException $e)
-        {
-            $list['message'] = $e->getMessage();
-            $list['organizations'] = Organization::list_all();
-            return $this->load->view('course_form',$list); 
-        }
-
-        catch(BlankOrgException $e)
         {
             $list['message'] = $e->getMessage();
             $list['organizations'] = Organization::list_all();

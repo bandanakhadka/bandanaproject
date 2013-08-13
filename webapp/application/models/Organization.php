@@ -85,6 +85,8 @@ class Organization extends ActiveRecord\Model
     	$organization->email = $data['email'];
 
         $organization->save();
+
+        return $organization;
     }
 
 }

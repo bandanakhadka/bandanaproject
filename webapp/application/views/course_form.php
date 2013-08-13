@@ -47,16 +47,6 @@
 		        <label for="category">Category: </label>
 		        <input type="category" name="category">
 		    </p>
-		 
-		    <p>
-		    	<label for="organization">Organization: </label>
-		    	<select name="organization_id">
-			    	<option></option>	    	
-					<?php foreach($organizations as $organization){  ?>
-					<option value="<?php echo $organization->id;?>"><?php echo $organization->name;?></option>
-					<?php } ?>
-			 	</select>
-			</p>
 
 		    <p>
 		    	<input type="submit" name="submit" value="Add Course">

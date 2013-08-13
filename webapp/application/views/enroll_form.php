@@ -38,13 +38,21 @@
 			</p>
 
 			<p>
-				<?php if($flag==1)
+				<?php if($flag==0)
 				{ ?>
 		    	<input type="submit" name="submit" value="Enroll">
 		    	<?php }
-		    	else 
+		    	elseif($flag==1)
 		    	{ ?>
 		    	<input type="submit" name="submit" value="UnEnroll">
+		    	<?php } 
+		    	elseif($flag==2)
+		    	{ ?>
+		    	<input type="submit" name="submit" value="Deactivate">
+		    	<?php } 
+		    	else
+		    	{ ?>
+		    	<input type="submit" name="submit" value="Activate">
 		    	<?php } ?>
 		    </p>		    
 		</form>

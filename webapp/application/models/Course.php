@@ -12,27 +12,22 @@ class BlankDurationException extends Exception
 class BlankCategoryException extends Exception
 {}
 
-class BlankOrgException extends Exception
-{}
-
 class Course extends ActiveRecord\Model
 {
 
     static $table_name = 'courses';
     static $primary_key = 'id';
 
-    static $belongs_to = array(
-        array(
-            'organization',
-            'class_name'=>'Organization',
-            'foreign_key'=>'org_id')
-    );
-
     static $has_many = array(
         array(
             'enrollments',
             'class_name'=>'Enrollment',
-            'foreign_key'=>'course_id')
+            'foreign_key'=>'course_id'),
+        array(
+            'organization_enrollments',
+            'class_name'=>'OrganizationEnrollment',
+            'foreign_key'=>'course_id'
+            )
     );
 
     public function set_course_code($course_code)
@@ -75,15 +70,6 @@ class Course extends ActiveRecord\Model
         $this->assign_attribute('category',$category);
     }
 
-    public function set_organization($organization)
-    {
-        if(!$organization)
-        {
-            throw new BlankOrgException("Please select an Organization!");              
-        }
-        $this->assign_attribute('org_id',$organization->id);
-    }
-
     public function get_course_code()
     {
         return $this->read_attribute('course_code');
@@ -112,18 +98,52 @@ class Course extends ActiveRecord\Model
 
     public function list_available($org_id)
     {
-        $course = Course::all(array('conditions'=>array('org_id=?',$org_id)));
+        $course = Course::all(array(
+                    'joins'=>array('organization_enrollments'),
+                    'conditions'=>array('org_id = ? AND is_active = ?',$org_id,1)
+                    )
+                );
         return $course;
     }
 
-    public function list_enrolled($member_id,$org_id)
+    public function list_enrolled($member_id)
     {
         $courses = Course::all(array(
                     'joins'=>array('enrollments'),
-                    'conditions'=>array('member_id = ? AND org_id = ? AND is_deleted = ?',$member_id,$org_id,0)
+                    'conditions'=>array('member_id = ? AND is_deleted = ?',$member_id,0)
                     )
                 );
         return $courses;
+    }
+
+    public function list_deactivated($member_id)
+    {
+        $courses = Course::all(array(
+                    'joins'=>array('enrollments'),
+                    'conditions'=>array('member_id = ? AND is_deleted = ? AND is_active = ?',$member_id,0,0)
+                    )
+                );
+        return $courses;
+    }
+
+    public function list_available_org($org_id)
+    {
+        $course = Course::all(array(
+                    'joins'=>array('organization_enrollments'),
+                    'conditions'=>array('org_id = ? AND is_active = ?',$org_id,1)
+                    )
+                );
+        return $course;
+    }
+
+    public function list_deactivated_org($org_id)
+    {
+        $course = Course::all(array(
+                    'joins'=>array('organization_enrollments'),
+                    'conditions'=>array('org_id = ? AND is_deleted = ? AND is_active = ?',$org_id,0,0)
+                    )
+                );
+        return $course;
     }
 
     public static function create($data)
@@ -134,7 +154,6 @@ class Course extends ActiveRecord\Model
         $course->course_name = $data['course_name'];
         $course->duration_in_hrs = $data['duration_in_hrs'];
     	$course->category = $data['category'];
-        $course->organization = $data['organization'];
 
         $course->save();
     }
