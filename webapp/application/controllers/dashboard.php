@@ -1,54 +1,39 @@
 <?php
 
-class Dashboard extends CI_Controller
+class Dashboard extends SessionController
 {
 	public function __construct()
 	{
 		parent::__construct();
-
-		if(!$member_id = $this->session->userdata('member_id'))
-		{
-			$this->session->set_flashdata('error', 'You are not logged in. Please login to continue.');
-			redirect('login');
-		}
-
-		if(!$member = Member::find_by_id($member_id))
-		{
-			$this->session->set_flashdata('error', 'You are not logged in. Please login to continue.');
-			redirect('login');
-		}
 	}
 
 	public function index()
 	{
-		$member_id = $this->session->userdata('member_id');
-		$member = Member::find_by_id($member_id);
-		$courses = Course::list_enrolled($member_id,$member->organization_id);
+		$courses = Course::list_enrolled($this->member->id,$this->member->organization_id);
 
 		if(isset($this->session))
 		{
-			return $this->load->view('dashboard',array('member'=>$member,'courses'=>$courses));	
+			//return $this->load->view('dashboard',array('member'=>$member,'courses'=>$courses));
+			return $this->load_view('dashboard',array('courses'=>$courses));	
 		}
 		
 	}
 
 	public function enroll_course()
 	{
-		$member = Member::find_by_id($this->session->userdata['member_id']);
-
 		if($_SERVER['REQUEST_METHOD'] !== 'POST')
 		{
-			$list['courses'] = Course::list_available($member->organization_id);
+			$list['courses'] = Course::list_available($this->member->organization_id);
 			$list['flag'] = 0;
 
-			return $this->load->view('enroll_form',$list);
+			return $this->load_view('enroll_form',$list);
 		}	
 		
 		$course = Course::find_by_id($_POST['course_id']);
 
 		$data = array(
 			'course'=>$course,
-			'member'=>$member
+			'member'=>$this->member
 			);
 
 		try
@@ -59,19 +44,19 @@ class Dashboard extends CI_Controller
 		catch(UnavailableEnrollmentException $e)
 		{
 			$list['message'] = $e->getMessage();
-            $list['courses'] = Course::list_available($member->organization_id);
+            $list['courses'] = Course::list_available($this->member->organization_id);
             $list['flag'] = 0;
 
-            return $this->load->view('enroll_form',$list);
+            return $this->load_view('enroll_form',$list);
 		}
 
 		catch(BlankEnrollmentException $e)
 		{
 			$list['message'] = $e->getMessage();
-            $list['courses'] = Course::list_available($member->organization_id);
+            $list['courses'] = Course::list_available($this->member->organization_id);
             $list['flag'] = 0;
 
-            return $this->load->view('enroll_form',$list);
+            return $this->load_view('enroll_form',$list);
 		}
 
 		redirect('dashboard');
@@ -81,22 +66,13 @@ class Dashboard extends CI_Controller
 	{
 		if($_SERVER['REQUEST_METHOD'] !== 'POST')
 		{
-			$member_id = $this->session->userdata('member_id');
-			$member = Member::find_by_id($member_id);
-
-			/*foreach($member->enrollments as $enrollment)
-			{
-				$enroll[] = $enrollment->course;
-			}
-			$list['courses'] = $enroll;*/
-
-			$list['courses'] = Course::list_enrolled($this->session->userdata('member_id'));
+			$list['courses'] = Course::list_enrolled($this->member->id);
 			$list['flag'] = 1;
 
-			return $this->load->view('enroll_form',$list);
+			return $this->load_view('enroll_form',$list);
 		}
 		
-		$enrollment = Enrollment::find_by_course_id_and_member_id_and_is_deleted($_POST['course_id'],$this->session->userdata['member_id'],0);
+		$enrollment = Enrollment::find_by_course_id_and_member_id_and_is_deleted($_POST['course_id'],$this->member->id,0);
 
 		if($enrollment)
 		{
@@ -111,16 +87,13 @@ class Dashboard extends CI_Controller
 	{
 		if($_SERVER['REQUEST_METHOD'] !== 'POST')
 		{
-			$member_id = $this->session->userdata('member_id');
-			$member = Member::find_by_id($member_id);
-
-			$list['courses'] = Course::list_enrolled($this->session->userdata('member_id'));
+			$list['courses'] = Course::list_enrolled($this->member->id);
 			$list['flag'] = 2;
 
-			return $this->load->view('enroll_form',$list);
+			return $this->load_view('enroll_form',$list);
 		}
 		
-		$enrollment = Enrollment::find_by_course_id_and_member_id_and_is_deleted_and_is_active($_POST['course_id'],$this->session->userdata['member_id'],0,1);
+		$enrollment = Enrollment::find_by_course_id_and_member_id_and_is_deleted_and_is_active($_POST['course_id'],$this->member->id,0,1);
 
 		if($enrollment)
 		{
@@ -135,16 +108,13 @@ class Dashboard extends CI_Controller
 	{
 		if($_SERVER['REQUEST_METHOD'] !== 'POST')
 		{
-			$member_id = $this->session->userdata('member_id');
-			$member = Member::find_by_id($member_id);
-
-			$list['courses'] = Course::list_deactivated($this->session->userdata('member_id'));
+			$list['courses'] = Course::list_deactivated($this->member->id);
 			$list['flag'] = 3;
 
-			return $this->load->view('enroll_form',$list);
+			return $this->load_view('enroll_form',$list);
 		}
 		
-		$enrollment = Enrollment::find_by_course_id_and_member_id_and_is_deleted_and_is_active($_POST['course_id'],$this->session->userdata['member_id'],0,0);
+		$enrollment = Enrollment::find_by_course_id_and_member_id_and_is_deleted_and_is_active($_POST['course_id'],$this->member->id,0,0);
 
 		if($enrollment)
 		{

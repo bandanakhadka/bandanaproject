@@ -43,9 +43,13 @@
 				<input type="submit" name="submit" value="Deactivate" />
 				<?php
 				}
-				else 
+				elseif($flag==2) 
 					{ ?>
 				<input type="submit" name="submit" value="Activate" />
+				<?php } 
+				else 
+					{ ?>
+				<input type="submit" name="submit" value="Delete" />
 				<?php } ?>
 				</p>
 	

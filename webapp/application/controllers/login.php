@@ -1,23 +1,14 @@
 <?php
 
-class Login extends CI_Controller
+class Login extends NonSessionController
 {
     public function index() 
     {
-        if($this->session->userdata('member_id'))
-        {
-            $this->session->set_flashdata('logout', 'You are logged in. Please log out for a new login.');
-            redirect('dashboard');
-        }
-
-        if($this->session->userdata('member_id'))
-        {
-            redirect('dashboard');
-        }
+        $this->check_session();
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load->view('login_form');
+            return $this->load_view('login_form');
         }
 
         $data_user = array(
@@ -33,13 +24,13 @@ class Login extends CI_Controller
         catch(UserInvalidException $e)
         {
             $message['message'] = $e->getMessage();
-            return $this->load->view('login_form',$message);
+            return $this->load_view('login_form',$message);
         }
 
         catch(UserPasswordInvalidException $e)
         {
             $message['message'] = $e->getMessage();
-            return $this->load->view('login_form',$message);
+            return $this->load_view('login_form',$message);
         }
 
         $this->session->set_userdata(array(

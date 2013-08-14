@@ -1,20 +1,16 @@
 <?php
 
-class Signup extends CI_Controller
+class Signup extends NonSessionController
 {
     public function index() 
     {
-        if($this->session->userdata('member_id'))
-        {
-            $this->session->set_flashdata('logout', 'You are logged in. Please log out for a new signup.');
-            redirect('dashboard');
-        }
+        $this->check_session();
 
         $list['organizations'] = Organization::list_all();
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load->view('signup_form',$list);
+            return $this->load_view('signup_form',$list);
         }
 
         $organization = Organization::find_by_id($_POST['organization_id']);
@@ -42,7 +38,7 @@ class Signup extends CI_Controller
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load->view('signup_form',$message); 
+            return $this->load_view('signup_form',$message); 
         }
 
         catch(BlankLastNameException $e)
@@ -50,7 +46,7 @@ class Signup extends CI_Controller
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load->view('signup_form',$message); 
+            return $this->load_view('signup_form',$message); 
         }
 
         catch(BlankSexException $e)
@@ -58,7 +54,7 @@ class Signup extends CI_Controller
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load->view('signup_form',$message); 
+            return $this->load_view('signup_form',$message); 
         }
         
         catch(BlankAddressException $e)
@@ -66,7 +62,7 @@ class Signup extends CI_Controller
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load->view('signup_form',$message); 
+            return $this->load_view('signup_form',$message); 
         }
 
         catch(BlankContactException $e)
@@ -74,7 +70,7 @@ class Signup extends CI_Controller
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load->view('signup_form',$message); 
+            return $this->load_view('signup_form',$message); 
         }
 
         catch(BlankEmailException $e)
@@ -82,7 +78,7 @@ class Signup extends CI_Controller
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load->view('signup_form',$message); 
+            return $this->load_view('signup_form',$message); 
         }
 
         catch(BlankOrganizationException $e)
@@ -90,7 +86,7 @@ class Signup extends CI_Controller
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load->view('signup_form',$message); 
+            return $this->load_view('signup_form',$message); 
         }
 
         catch(BlankUserNameException $e)
@@ -98,7 +94,7 @@ class Signup extends CI_Controller
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load->view('signup_form',$message); 
+            return $this->load_view('signup_form',$message); 
         }
 
         catch(UnavailableUserNameException $e)
@@ -106,7 +102,7 @@ class Signup extends CI_Controller
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load->view('signup_form',$message); 
+            return $this->load_view('signup_form',$message); 
         }
 
         catch(BlankPasswordException $e)
@@ -114,7 +110,7 @@ class Signup extends CI_Controller
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load->view('signup_form',$message); 
+            return $this->load_view('signup_form',$message); 
         }
 
         catch(ConfirmPasswordException $e)
@@ -122,7 +118,7 @@ class Signup extends CI_Controller
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load->view('signup_form',$message); 
+            return $this->load_view('signup_form',$message); 
         }
 
         $this->session->set_userdata( array(

@@ -1,13 +1,13 @@
 <?php
 
-class Organizations extends CI_Controller
+class Organizations extends NonSessionController
 {
 
     public function index()
     {
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load->view('organization_form');   
+            return $this->load_view('organization_form');   
         }
         
         $data = array(
@@ -25,30 +25,30 @@ class Organizations extends CI_Controller
         catch(BlankNameException $e)
         {
             $message['message'] = $e->getMessage();
-            return $this->load->view('organization_form',$message); 
+            return $this->load_view('organization_form',$message); 
         }
 
         catch(BlankOrgAddressException $e)
         {
             $message['message'] = $e->getMessage();
-            return $this->load->view('organization_form',$message); 
+            return $this->load_view('organization_form',$message); 
         }
 
         catch(BlankTelephoneException $e)
         {
             $message['message'] = $e->getMessage();
-            return $this->load->view('organization_form',$message); 
+            return $this->load_view('organization_form',$message); 
         }
 
         catch(BlankOrgEmailException $e)
         {
             $message['message'] = $e->getMessage();
-            return $this->load->view('organization_form',$message); 
+            return $this->load_view('organization_form',$message); 
         }
 
         $list['current_org'] = $organization;
         $list['organizations'] = Organization::list_all();
-	    $this->load->view('organization_added',$list);
+	    $this->load_view('organization_added',$list);
 
 	}
 
@@ -60,7 +60,7 @@ class Organizations extends CI_Controller
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load->view('organization_enroll',$list);   
+            return $this->load_view('organization_enroll',$list);   
         }
 
         try
@@ -85,7 +85,7 @@ class Organizations extends CI_Controller
             $list['courses'] = Course::all();
             $list['flag']  = 0;
 
-            return $this->load->view('organization_enroll',$list);
+            return $this->load_view('organization_enroll',$list);
         } 
 
         catch(EnrollmentException $e) 
@@ -94,7 +94,7 @@ class Organizations extends CI_Controller
             $list['courses'] = Course::all();
             $list['flag']  = 0;
 
-            return $this->load->view('organization_enroll',$list);
+            return $this->load_view('organization_enroll',$list);
         }
 
         /*$list['current_org'] = Organization::find_by_id($org_id);
@@ -110,7 +110,7 @@ class Organizations extends CI_Controller
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load->view('organization_enroll',$list);   
+            return $this->load_view('organization_enroll',$list);   
         }
  
         if(!array_key_exists('checklist',$_POST)) 
@@ -134,7 +134,7 @@ class Organizations extends CI_Controller
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load->view('organization_enroll',$list);   
+            return $this->load_view('organization_enroll',$list);   
         }
 
         if(!array_key_exists('checklist',$_POST)) 
@@ -146,6 +146,29 @@ class Organizations extends CI_Controller
         {
             $enrollment = OrganizationEnrollment::find_by_org_id_and_course_id_and_is_active($org_id,$post,0);
             $enrollment->activate();
+        } 
+    }
+
+    public function delete_courses($org_id)
+    {
+
+        $list['courses'] = Course::list_available_org($org_id);
+        $list['flag']  = 3;
+
+        if($_SERVER['REQUEST_METHOD'] !== 'POST')
+        {
+            return $this->load_view('organization_enroll',$list);   
+        }
+
+        if(!array_key_exists('checklist',$_POST)) 
+        {
+            OrganizationEnrollment::is_empty();
+        }
+
+        foreach($_POST['checklist'] as $post) 
+        {
+            $enrollment = OrganizationEnrollment::find_by_org_id_and_course_id_and_is_deleted_and_is_active($org_id,$post,0,1);
+            $enrollment->delete();
         } 
     }
 

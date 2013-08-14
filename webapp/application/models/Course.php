@@ -110,7 +110,7 @@ class Course extends ActiveRecord\Model
     {
         $courses = Course::all(array(
                     'joins'=>array('enrollments'),
-                    'conditions'=>array('member_id = ? AND is_deleted = ?',$member_id,0)
+                    'conditions'=>array('member_id = ? AND is_active = ? AND is_deleted = ?',$member_id,1,0)
                     )
                 );
         return $courses;

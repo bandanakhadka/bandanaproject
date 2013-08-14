@@ -27,31 +27,31 @@
 	    <p class="heading"><h4>Welcome!</h4></p>
 
 		<p>
-			<?php echo "First Name: ".$member->first_name; ?>
+			<?php echo "First Name: ".$current_member->first_name; ?>
 		</p>
 
 		<p>
-			<?php echo "Last Name: ".$member->last_name; ?>
+			<?php echo "Last Name: ".$current_member->last_name; ?>
 		</p>
 
 		<p>
-			<?php echo "Sex: ".$member->sex;  ?>
+			<?php echo "Sex: ".$current_member->sex;  ?>
 		</p>
 
 		<p>
-			<?php echo "Address: ".$member->address; ?>
+			<?php echo "Address: ".$current_member->address; ?>
 		</p>
 
 		<p>
-			<?php echo "Contact: ".$member->contact_number; ?>
+			<?php echo "Contact: ".$current_member->contact_number; ?>
 		</p>
 
 		<p>
-			<?php echo "Email: ".$member->email;?>
+			<?php echo "Email: ".$current_member->email;?>
 		</p>
 
 		<p>
-			<?php echo "Organization: ".$member->organization->name;?>
+			<?php echo "Organization: ".$current_organization->name;?>
 		</p>
 
 		<p>
