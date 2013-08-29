@@ -1,0 +1,35 @@
+1:
+	id:1
+	course_code:"00F"
+	course_name:"maths"
+	duration_in_hrs:3
+	category:"maths"
+	is_active:1
+	is_deleted:0
+
+2:
+	id:2
+	course_code:"00G"
+	course_name:"english"
+	duration_in_hrs:3
+	category:"english"
+	is_active:0
+	is_deleted:0
+
+3:
+	id:3
+	course_code:"00H"
+	course_name:"nepali"
+	duration_in_hrs:3
+	category:"nepali"
+	is_active:0
+	is_deleted:1
+
+4:
+	id:4
+	course_code:"00I"
+	course_name:"science"
+	duration_in_hrs:3
+	category:"science"
+	is_active:1
+	is_deleted:0

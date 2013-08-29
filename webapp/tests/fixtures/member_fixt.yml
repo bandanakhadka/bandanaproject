@@ -1,0 +1,47 @@
+1:
+	id:1
+	first_name:"bandana"
+	last_name:"khadka"
+	sex:"Female"
+	address:"ktm"
+	contact_number:123123
+	email:"bandana@mail.com"
+	organization_id:1
+	is_active:1
+	is_deleted:0
+
+2:
+	id:2
+	first_name:"rama"
+	last_name:"khadka"
+	sex:"Female"
+	address:"ktm"
+	contact_number:123123
+	email:"rama@mail.com"
+	organization_id:1
+	is_active:0
+	is_deleted:0
+
+3:
+	id:3
+	first_name:"radha"
+	last_name:"khadka"
+	sex:"Female"
+	address:"ktm"
+	contact_number:123123
+	email:"radha@mail.com"
+	organization_id:1
+	is_active:0
+	is_deleted:1
+
+4:
+	id:4
+	first_name:"avril"
+	last_name:"khadka"
+	sex:"Female"
+	address:"ktm"
+	contact_number:123123
+	email:"avril@mail.com"
+	organization_id:1
+	is_active:1
+	is_deleted:0

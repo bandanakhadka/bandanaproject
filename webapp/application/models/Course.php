@@ -1,18 +1,8 @@
 <?php
 
-class BlankCourseCodeException extends Exception
-{}
+include_once('Exceptions.php');
 
-class BlankCourseNameException extends Exception
-{}
-
-class BlankDurationException extends Exception
-{}
-
-class BlankCategoryException extends Exception
-{}
-
-class Course extends ActiveRecord\Model
+class Course extends BaseModel
 {
 
     static $table_name = 'courses';
@@ -96,56 +86,6 @@ class Course extends ActiveRecord\Model
     	return $course;
     }
 
-    public function list_available($org_id)
-    {
-        $course = Course::all(array(
-                    'joins'=>array('organization_enrollments'),
-                    'conditions'=>array('org_id = ? AND is_active = ?',$org_id,1)
-                    )
-                );
-        return $course;
-    }
-
-    public function list_enrolled($member_id)
-    {
-        $courses = Course::all(array(
-                    'joins'=>array('enrollments'),
-                    'conditions'=>array('member_id = ? AND is_active = ? AND is_deleted = ?',$member_id,1,0)
-                    )
-                );
-        return $courses;
-    }
-
-    public function list_deactivated($member_id)
-    {
-        $courses = Course::all(array(
-                    'joins'=>array('enrollments'),
-                    'conditions'=>array('member_id = ? AND is_deleted = ? AND is_active = ?',$member_id,0,0)
-                    )
-                );
-        return $courses;
-    }
-
-    public function list_available_org($org_id)
-    {
-        $course = Course::all(array(
-                    'joins'=>array('organization_enrollments'),
-                    'conditions'=>array('org_id = ? AND is_active = ?',$org_id,1)
-                    )
-                );
-        return $course;
-    }
-
-    public function list_deactivated_org($org_id)
-    {
-        $course = Course::all(array(
-                    'joins'=>array('organization_enrollments'),
-                    'conditions'=>array('org_id = ? AND is_deleted = ? AND is_active = ?',$org_id,0,0)
-                    )
-                );
-        return $course;
-    }
-
     public static function create($data)
     {
     	$course = new course();
@@ -154,8 +94,38 @@ class Course extends ActiveRecord\Model
         $course->course_name = $data['course_name'];
         $course->duration_in_hrs = $data['duration_in_hrs'];
     	$course->category = $data['category'];
+        $course->is_active = 1;
+        $course->is_deleted = 0;
 
         $course->save();
+
+        return $course;
+    }
+
+    public function upload_course($ftp,$config)
+    {
+        try
+        {
+            if($ftp->connect($config)==TRUE)
+            {
+                $upload = $ftp->upload('C:\Users\Mingma Sherpa\Documents\GitHub\bandanaproject\webapp\system\upload', '/courses/upload');            
+                return $upload;
+            }
+
+            else
+            {
+                throw new FTPException("FTP connection failed!!");
+            }
+        }
+
+        catch(FTPException $e)
+        {
+            $ftp->close();
+            return FALSE;
+        }
+         
+        $ftp->close();
+        return TRUE;
     }
 
 }

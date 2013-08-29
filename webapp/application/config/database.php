@@ -45,7 +45,7 @@
 | the active record class
 */
 
-$active_group = 'local';
+$active_group = ENVIRONMENT;
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
@@ -79,6 +79,25 @@ $db['local']['dbcollat'] = 'utf8_general_ci';
 $db['local']['swap_pre'] = '';
 $db['local']['autoinit'] = TRUE;
 $db['local']['stricton'] = FALSE;
+
+$db['testing'] = $db['local'];
+$db['testing']['database'] = 'bandana_test';
+
+/*$db['testing']['hostname'] = 'localhost';
+$db['testing']['username'] = 'root';
+$db['testing']['password'] = 'root';
+$db['testing']['database'] = 'bandana_test';
+$db['testing']['dbdriver'] = 'mysql';
+$db['testing']['dbprefix'] = '';
+$db['testing']['pconnect'] = TRUE;
+$db['testing']['db_debug'] = TRUE;
+$db['testing']['cache_on'] = FALSE;
+$db['testing']['cachedir'] = '';
+$db['testing']['char_set'] = 'utf8';
+$db['testing']['dbcollat'] = 'utf8_general_ci';
+$db['testing']['swap_pre'] = '';
+$db['testing']['autoinit'] = TRUE;
+$db['testing']['stricton'] = FALSE;*/
 
 
 /* End of file database.php */

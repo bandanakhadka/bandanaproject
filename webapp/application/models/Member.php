@@ -1,29 +1,9 @@
 <?php
 
-class BlankFirstNameException extends Exception
-{}
+include_once('Exceptions.php');
 
-class BlankLastNameException extends Exception
-{}
-
-class BlankSexException extends Exception
-{}
-
-class BlankAddressException extends Exception
-{}
-
-class BlankContactException extends Exception
-{}
-
-class BlankEmailException extends Exception
-{}
-
-class BlankOrganizationException extends Exception
-{}
-
-class Member extends ActiveRecord\Model
+class Member extends BaseModel
 {
-
     static $table_name = 'member';
     static $primary_key = 'id';
 
@@ -110,10 +90,13 @@ class Member extends ActiveRecord\Model
 
     public function set_organization($organization)
     {
-        if(!$organization)
+        if(!$organization instanceof Organization)
         {
-            throw new BlankOrganizationException("Please select an Organization!");                
+            throw new InvalidOrganizationException("Please select an Organization!");                
         }
+
+        $organization->check_is_valid();
+
         $this->assign_attribute('organization_id',$organization->id);
     }
 
@@ -148,45 +131,11 @@ class Member extends ActiveRecord\Model
         $member->contact_number = $data['contact_number'];
     	$member->email = $data['email'];
         $member->organization = $data['organization'];
-
-        $user = User::create(array(
-            'user_name' => $data['user_name'],
-            'password' => $data['password'],
-            'confirm_password' =>$data['confirm_password'],
-            'email' => $data['email'])
-        );
-
-        $member->save();
-       
-        $user->member = $member;
-        $user->save();
+        $member->is_active = 1;
+        $member->is_deleted = 0;
 
     	return $member;
 
-    }
-
-    public function delete()
-    {
-        $this->is_active = 0;
-        $this->is_deleted = 1;
-
-        $this->save();
-    }
-
-    public function deactivate()
-    {
-        $this->is_active = 0;
-        $this->is_deleted = 0;
-
-        $this->save();
-    }
-
-    public function activate()
-    {
-        $this->is_active = 1;
-        $this->is_deleted = 0;
-
-        $this->save();
     }
 
 }

@@ -1,12 +1,8 @@
 <?php
 
-class EmptyException extends Exception
-{}
+include_once('Exceptions.php');
 
-class EnrollmentException extends Exception
-{}
-
-class OrganizationEnrollment extends ActiveRecord\Model
+class OrganizationEnrollment extends BaseModel
 {
 
     static $table_name = 'organization_enrollment';
@@ -25,17 +21,14 @@ class OrganizationEnrollment extends ActiveRecord\Model
 
     public function set_course($course)
     {
+        $course->check_is_valid();
         $this->assign_attribute('course_id',$course->id);
     }
 
     public function set_organization($organization)
 	{
-    	$this->assign_attribute('org_id',$organization->id);
-    }
-
-    public static function is_empty()
-    {
-        throw new EmptyException("No course selected. Please select courses.");
+        $organization->check_is_valid();
+    	return $this->assign_attribute('org_id',$organization->id);
     }
 
     public function check_if_exists($course,$organization)
@@ -60,31 +53,8 @@ class OrganizationEnrollment extends ActiveRecord\Model
         self::check_if_exists( $data['course'],$data['organization']);
 
         $org_enrollment->save();
+        return $org_enrollment;
     }
 
-    public function delete()
-    {
-
-        $this->is_active = 0;
-        $this->is_deleted = 1;
-
-        $this->save();
-    }
-
-    public function deactivate()
-    {
-        $this->is_active = 0;
-        $this->is_deleted = 0;
-
-        $this->save();
-    }
-
-    public function activate()
-    {
-        $this->is_active = 1;
-        $this->is_deleted = 0;
-
-        $this->save();
-    }
 
 }

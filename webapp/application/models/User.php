@@ -1,22 +1,6 @@
 <?php
 
-class BlankUserNameException extends Exception
-{}
-
-class UnavailableUserNameException extends Exception
-{}
-
-class BlankPasswordException extends Exception
-{}
-
-class ConfirmPasswordException extends Exception
-{}
-
-class UserInvalidException extends Exception
-{}
-
-class UserPasswordInvalidException extends Exception
-{}
+include_once('Exceptions.php');
 
 class User extends ActiveRecord\Model
 {
@@ -31,11 +15,38 @@ class User extends ActiveRecord\Model
 
     public function set_user_name($user_name)
     {
+        if ($user_name=='')
+        {
+            throw new BlankUserNameException("User Name Required!");
+        }
+
+        if($this->is_new_record())
+        {
+            if(User::exists(array('user_name'=>$user_name)))
+            { 
+                throw new UnavailableUserNameException("Username already exists! Enter a new username."); 
+            }
+        }
+
+        else
+        {
+            if (User::exists(array('conditions'=>array('user_name = ? and id!= ?',$user_name,$this->id))))
+            {                
+                throw new UnavailableUserNameException("Username already exists! Enter a new username.");
+            }
+        }
+
+        $this->assign_attribute('user_name',$user_name);
+    } 
+
+
+    /*public function set_user_name($user_name)
+    {
         if($user_name=='')
         {
             throw new BlankUserNameException("User Name Required!");              
         }
-
+      
         $user = User::find('all',array('conditions'=>array('user_name = ?',$user_name)));
 
         if($user)
@@ -44,7 +55,7 @@ class User extends ActiveRecord\Model
         }
 
         $this->assign_attribute('user_name',$user_name);
-    }
+    }*/
 
     public function set_password($password)
 	{

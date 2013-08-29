@@ -1,13 +1,17 @@
 <?php
 
-class Organizations extends NonSessionController
+class Organizations extends CI_Controller
 {
-
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    
     public function index()
     {
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load_view('organization_form');   
+            return $this->load->view('organization_form');   
         }
         
         $data = array(
@@ -25,30 +29,30 @@ class Organizations extends NonSessionController
         catch(BlankNameException $e)
         {
             $message['message'] = $e->getMessage();
-            return $this->load_view('organization_form',$message); 
+            return $this->load->view('organization_form',$message); 
         }
 
         catch(BlankOrgAddressException $e)
         {
             $message['message'] = $e->getMessage();
-            return $this->load_view('organization_form',$message); 
+            return $this->load->view('organization_form',$message); 
         }
 
         catch(BlankTelephoneException $e)
         {
             $message['message'] = $e->getMessage();
-            return $this->load_view('organization_form',$message); 
+            return $this->load->view('organization_form',$message); 
         }
 
         catch(BlankOrgEmailException $e)
         {
             $message['message'] = $e->getMessage();
-            return $this->load_view('organization_form',$message); 
+            return $this->load->view('organization_form',$message); 
         }
 
         $list['current_org'] = $organization;
         $list['organizations'] = Organization::list_all();
-	    $this->load_view('organization_added',$list);
+	    $this->load->view('organization_added',$list);
 
 	}
 
@@ -60,14 +64,14 @@ class Organizations extends NonSessionController
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load_view('organization_enroll',$list);   
+            return $this->load->view('organization_enroll',$list);   
         }
 
         try
         { 
             if(!array_key_exists('checklist',$_POST)) 
             {
-                OrganizationEnrollment::is_empty();
+                throw new Exception("No course selected. Please select courses to add.");
             }
 
             foreach($_POST['checklist'] as $post) 
@@ -79,13 +83,13 @@ class Organizations extends NonSessionController
             } 
         }
 
-        catch(EmptyException $e) 
+        catch(Exception $e) 
         {
             $list['message'] =  $e->getMessage();
             $list['courses'] = Course::all();
             $list['flag']  = 0;
 
-            return $this->load_view('organization_enroll',$list);
+            return $this->load->view('organization_enroll',$list);
         } 
 
         catch(EnrollmentException $e) 
@@ -94,28 +98,72 @@ class Organizations extends NonSessionController
             $list['courses'] = Course::all();
             $list['flag']  = 0;
 
-            return $this->load_view('organization_enroll',$list);
+            return $this->load->view('organization_enroll',$list);
         }
 
-        /*$list['current_org'] = Organization::find_by_id($org_id);
-        $list['organizations'] = Organization::list_all();
-        $this->load->view('organization_added',$list);*/
+        catch(InactiveException $e)
+        {
+            $list['message'] =  $e->getMessage();
+            $list['courses'] = Course::all();
+            $list['flag']  = 0;
+
+            return $this->load->view('organization_enroll',$list);
+        }
+
+        catch(DeletedException $e)
+        {
+            $list['message'] =  $e->getMessage();
+            $list['courses'] = Course::all();
+            $list['flag']  = 0;
+
+            return $this->load->view('organization_enroll',$list);
+        }
+
     }
 
     public function deactivate_courses($org_id)
     {
+        $organization = Organization::find_by_id($org_id);
+        $courses = array();
+        $org_enrollments = $organization->organization_enrollments;
 
-        $list['courses'] = Course::list_available_org($org_id);
+        foreach ($org_enrollments as $org_enrollment)
+        {
+            if($org_enrollment->is_active == 1)
+            {
+                 $courses[] = $org_enrollment->course;
+
+            }
+        }
+
+        $list['courses'] = $courses;
         $list['flag']  = 1;
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load_view('organization_enroll',$list);   
+            if(empty($list['courses']))
+            {
+                $list['message'] = "No courses added yet. Deactivation not possible.";
+                return $this->load->view('no_options',$list);
+            }
+            return $this->load->view('organization_enroll',$list);   
         }
- 
-        if(!array_key_exists('checklist',$_POST)) 
+    
+        try
         {
-            OrganizationEnrollment::is_empty();
+            if(!array_key_exists('checklist',$_POST)) 
+            {
+                throw new Exception("No course selected. Please select courses to deactivate.");
+            }
+        }
+
+        catch(Exception $e)
+        {
+            $list['message'] =  $e->getMessage();
+            $list['courses'] = $courses;
+            $list['flag']  = 2;
+
+            return $this->load->view('organization_enroll',$list);
         }
         
         foreach($_POST['checklist'] as $post) 
@@ -128,18 +176,47 @@ class Organizations extends NonSessionController
 
     public function activate_courses($org_id)
     {
+        $organization = Organization::find_by_id($org_id);
+        $courses = array();
+        $org_enrollments = $organization->organization_enrollments;
 
-        $list['courses'] = Course::list_deactivated_org($org_id);
+        foreach ($org_enrollments as $org_enrollment)
+        {
+            if($org_enrollment->is_active == 0 && $org_enrollment->is_deleted == 0)
+            {
+                 $courses[] = $org_enrollment->course;
+
+            }
+        }
+
+        $list['courses'] = $courses;
         $list['flag']  = 2;
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load_view('organization_enroll',$list);   
+            if(empty($list['courses']))
+            {
+                $list['message'] = "No courses deactivated yet. Activation not possible.";
+                return $this->load->view('no_options',$list);
+            }
+            return $this->load->view('organization_enroll',$list);   
         }
 
-        if(!array_key_exists('checklist',$_POST)) 
+        try
         {
-            OrganizationEnrollment::is_empty();
+            if(!array_key_exists('checklist',$_POST)) 
+            {
+                throw new Exception("No course selected. Please select courses.");
+            }
+        }
+
+        catch(Exception $e)
+        {
+            $list['message'] =  $e->getMessage();
+            $list['courses'] = $courses;
+            $list['flag']  = 2;
+
+            return $this->load->view('organization_enroll',$list);
         }
 
         foreach($_POST['checklist'] as $post) 
@@ -151,18 +228,47 @@ class Organizations extends NonSessionController
 
     public function delete_courses($org_id)
     {
+        $organization = Organization::find_by_id($org_id);
+        $courses = array();
+        $org_enrollments = $organization->organization_enrollments;
 
-        $list['courses'] = Course::list_available_org($org_id);
+        foreach ($org_enrollments as $org_enrollment)
+        {
+            if($org_enrollment->is_active == 1)
+            {
+                 $courses[] = $org_enrollment->course;
+
+            }
+        }
+
+        $list['courses'] = $courses;
         $list['flag']  = 3;
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load_view('organization_enroll',$list);   
+            if(empty($list['courses']))
+            {
+                $list['message'] = "No courses added yet. Deletion not possible.";
+                return $this->load->view('no_options',$list);
+            }
+            return $this->load->view('organization_enroll',$list);   
         }
 
-        if(!array_key_exists('checklist',$_POST)) 
+        try
         {
-            OrganizationEnrollment::is_empty();
+            if(!array_key_exists('checklist',$_POST)) 
+            {
+                throw new Exception("No course selected. Please select courses.");
+            }
+        }
+
+        catch(Exception $e)
+        {
+            $list['message'] =  $e->getMessage();
+            $list['courses'] = $courses;
+            $list['flag']  = 3;
+
+            return $this->load->view('organization_enroll',$list);
         }
 
         foreach($_POST['checklist'] as $post) 
@@ -180,6 +286,75 @@ class Organizations extends NonSessionController
         {
             echo $member->first_name." ".$member->last_name."<br>";
         }
+    }
+
+    public function enroll_all_members_in_course($org_id)
+    {
+        $organization = Organization::find_by_id($org_id);
+        $courses = array();
+        $org_enrollments = $organization->organization_enrollments;
+
+        foreach ($org_enrollments as $org_enrollment)
+        {
+            if($org_enrollment->is_active == 1)
+            {
+                 $courses[] = $org_enrollment->course;
+
+            }
+        }
+
+        $list['courses'] = $courses;
+
+        if($_SERVER['REQUEST_METHOD'] !== 'POST')
+        {
+            if(empty($list['courses']))
+            {
+                $list['message'] = "No courses available.";
+                return $this->load->view('no_options',$list);
+            }
+            return $this->load->view('enroll_all_members',$list);   
+        }
+
+        try
+        {
+            $course = Course::find_by_id($_POST['course']);
+            $course->check_is_valid();
+
+            $org_enroll = OrganizationEnrollMent::find_by_org_id_and_course_id($org_id,$course->id);
+            $org_enroll->check_is_valid();
+
+            $organization = Organization::find_by_id($org_id);        
+            $organization->enroll_members_in_course($course);
+        }
+
+        catch(InactiveException $e)
+        {
+            $list['courses'] = $courses;
+            $list['message'] = $e->getMessage();
+            return $this->load->view('enroll_all_members',$list);
+        }
+
+        catch(DeletedException $e)
+        {
+            $list['courses'] = $courses;
+            $list['message'] = $e->getMessage();
+            return $this->load->view('enroll_all_members',$list);
+        }
+
+        catch(Exception $e)
+        {
+            $list['courses'] = $courses;
+            $list['message'] = $e->getMessage();
+            return $this->load->view('enroll_all_members',$list);
+        }
+
+    }
+
+    public function count($org_id)
+    {
+        $organization = Organization::find_by_id($org_id);
+        $organization->regenerate();
+        echo "<br><br>Total Members: ".$organization->member_count."<br><br>Total Courses Available: ".$organization->org_enrollment_count;
     }
 
 }

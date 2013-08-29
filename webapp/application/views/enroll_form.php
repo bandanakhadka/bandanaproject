@@ -20,6 +20,11 @@
 			{
 				echo $this->session->flashdata('success');
 			}
+
+			if(isset($table))
+			{
+				echo "Table: ".$table;
+			}
 		?>
 	 
 	<div id="signup_form">

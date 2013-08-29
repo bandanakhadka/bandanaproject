@@ -1,0 +1,35 @@
+1:
+	id:1
+	name:"Olive Media"
+	address:"chabahil"
+	telephone:12334234
+	email:"olivemedia@mail.com"
+	is_active:1
+	is_deleted:0
+
+2:
+	id:2
+	name:"ABC Org"
+	address:"chabahil"
+	telephone:12334234
+	email:"abc@mail.com"
+	is_active:0
+	is_deleted:0
+
+3:
+	id:3
+	name:"Qwerty Org"
+	address:"chabahil"
+	telephone:12334234
+	email:"qwerty@mail.com"
+	is_active:0
+	is_deleted:1
+
+4:
+	id:4
+	name:"Olive Media Nepal"
+	address:"chabahil"
+	telephone:12334234
+	email:"olivemedia@mail.com"
+	is_active:1
+	is_deleted:0

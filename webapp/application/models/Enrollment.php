@@ -1,12 +1,8 @@
 <?php
 
-class UnavailableEnrollmentException extends Exception
-{}
+include_once('Exceptions.php');
 
-class BlankEnrollmentException extends Exception
-{}
-
-class Enrollment extends ActiveRecord\Model
+class Enrollment extends BaseModel
 {
 
     static $table_name = 'enrollment';
@@ -25,19 +21,17 @@ class Enrollment extends ActiveRecord\Model
 
     public function set_course($course)
     {
-        if(!$course)
-        {
-            throw new BlankEnrollmentException("Please select a course to enroll!");              
-        }
+        $course->check_is_valid();
         $this->assign_attribute('course_id',$course->id);
     }
 
     public function set_member($member)
 	{
+        $member->check_is_valid(); 
     	$this->assign_attribute('member_id',$member->id);
     }
 
-    public function check_if_exists($course,$member)
+    public static function check_if_exists($course,$member)
     {
         $enrollment = Enrollment::find_by_course_id_and_member_id_and_is_deleted($course->id,$member->id,0);
 
@@ -59,30 +53,7 @@ class Enrollment extends ActiveRecord\Model
         self::check_if_exists( $data['course'],$data['member']);
 
         $enrollment->save();
-    }
-
-    public function delete()
-    {
-        $this->is_active = 0;
-        $this->is_deleted = 1;
-
-        $this->save();
-    }
-
-    public function deactivate()
-    {
-        $this->is_active = 0;
-        $this->is_deleted = 0;
-
-        $this->save();
-    }
-
-    public function activate()
-    {
-        $this->is_active = 1;
-        $this->is_deleted = 0;
-
-        $this->save();
+        return $enrollment;
     }
 
 }

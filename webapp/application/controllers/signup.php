@@ -2,6 +2,11 @@
 
 class Signup extends NonSessionController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    
     public function index() 
     {
         $this->check_session();
@@ -10,7 +15,7 @@ class Signup extends NonSessionController
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load_view('signup_form',$list);
+            return $this->load->view('signup_form',$list);
         }
 
         $organization = Organization::find_by_id($_POST['organization_id']);
@@ -21,9 +26,6 @@ class Signup extends NonSessionController
             'sex' => $_POST['sex'],
             'address' => $_POST['address'],
             'contact_number' => $_POST['contact_number'],
-            'user_name' => $_POST['user_name'],
-            'password' => $_POST['password'],
-            'confirm_password' => $_POST['pass_conf'],
             'email' => $_POST['email'],
             'organization' => $organization
         );
@@ -31,6 +33,18 @@ class Signup extends NonSessionController
         try
         {
             $member = Member::create($data);
+
+            $user = User::create(array(
+                                'user_name' => $_POST['user_name'],
+                                'password' => $_POST['password'],
+                                'confirm_password' => $_POST['pass_conf'],
+                                'email' => $_POST['email']
+                                )
+                        );
+
+            $member->save();
+            $user->member = $member;
+            $user->save();
         }
 
         catch(BlankFirstNameException $e)
@@ -38,7 +52,7 @@ class Signup extends NonSessionController
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load_view('signup_form',$message); 
+            return $this->load->view('signup_form',$message); 
         }
 
         catch(BlankLastNameException $e)
@@ -46,7 +60,7 @@ class Signup extends NonSessionController
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load_view('signup_form',$message); 
+            return $this->load->view('signup_form',$message); 
         }
 
         catch(BlankSexException $e)
@@ -54,7 +68,7 @@ class Signup extends NonSessionController
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load_view('signup_form',$message); 
+            return $this->load->view('signup_form',$message); 
         }
         
         catch(BlankAddressException $e)
@@ -62,7 +76,7 @@ class Signup extends NonSessionController
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load_view('signup_form',$message); 
+            return $this->load->view('signup_form',$message); 
         }
 
         catch(BlankContactException $e)
@@ -70,7 +84,7 @@ class Signup extends NonSessionController
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load_view('signup_form',$message); 
+            return $this->load->view('signup_form',$message); 
         }
 
         catch(BlankEmailException $e)
@@ -78,15 +92,31 @@ class Signup extends NonSessionController
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load_view('signup_form',$message); 
+            return $this->load->view('signup_form',$message); 
         }
 
-        catch(BlankOrganizationException $e)
+        catch(InactiveException $e)
         {
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load_view('signup_form',$message); 
+            return $this->load->view('signup_form',$message); 
+        }
+
+        catch(DeletedException $e)
+        {
+            $message['message'] = $e->getMessage();
+            $message['organizations'] = Organization::list_all();
+
+            return $this->load->view('signup_form',$message); 
+        }
+
+        catch(InvalidOrganizationException $e)
+        {
+            $message['message'] = $e->getMessage();
+            $message['organizations'] = Organization::list_all();
+
+            return $this->load->view('signup_form',$message); 
         }
 
         catch(BlankUserNameException $e)
@@ -94,7 +124,7 @@ class Signup extends NonSessionController
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load_view('signup_form',$message); 
+            return $this->load->view('signup_form',$message); 
         }
 
         catch(UnavailableUserNameException $e)
@@ -102,7 +132,7 @@ class Signup extends NonSessionController
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load_view('signup_form',$message); 
+            return $this->load->view('signup_form',$message); 
         }
 
         catch(BlankPasswordException $e)
@@ -110,7 +140,7 @@ class Signup extends NonSessionController
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load_view('signup_form',$message); 
+            return $this->load->view('signup_form',$message); 
         }
 
         catch(ConfirmPasswordException $e)
@@ -118,7 +148,7 @@ class Signup extends NonSessionController
             $message['message'] = $e->getMessage();
             $message['organizations'] = Organization::list_all();
 
-            return $this->load_view('signup_form',$message); 
+            return $this->load->view('signup_form',$message); 
         }
 
         $this->session->set_userdata( array(

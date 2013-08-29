@@ -1,14 +1,19 @@
 <?php
 
-class Courses extends NonSessionController
+class Courses extends CI_Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    
     public function index()
     {
         $list['organizations'] = Organization::list_all();
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load_view('course_form',$list);   
+            return $this->load->view('course_form',$list);   
         }
        
         $data = array(
@@ -27,32 +32,32 @@ class Courses extends NonSessionController
         {
             $list['message'] = $e->getMessage();
             $list['organizations'] = Organization::list_all();
-            return $this->load_view('course_form',$list); 
+            return $this->load->view('course_form',$list); 
         }
 
         catch(BlankCourseNameException $e)
         {
             $list['message'] = $e->getMessage();
             $list['organizations'] = Organization::list_all();
-            return $this->load_view('course_form',$list); 
+            return $this->load->view('course_form',$list); 
         }
 
         catch(BlankDurationException $e)
         {
             $list['message'] = $e->getMessage();
             $list['organizations'] = Organization::list_all();
-            return $this->load_view('course_form',$list); 
+            return $this->load->view('course_form',$list); 
         }
 
         catch(BlankCategoryException $e)
         {
             $list['message'] = $e->getMessage();
             $list['organizations'] = Organization::list_all();
-            return $this->load_view('course_form',$list); 
+            return $this->load->view('course_form',$list); 
         }
 
         $list['courses'] = Course::list_all();
-	    $this->load_view('course_added',$list);
+	    $this->load->view('course_added',$list);
 
 	}
 

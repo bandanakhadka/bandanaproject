@@ -2,13 +2,18 @@
 
 class Login extends NonSessionController
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    
     public function index() 
     {
         $this->check_session();
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
-            return $this->load_view('login_form');
+            return $this->load->view('login_form');
         }
 
         $data_user = array(
@@ -24,13 +29,13 @@ class Login extends NonSessionController
         catch(UserInvalidException $e)
         {
             $message['message'] = $e->getMessage();
-            return $this->load_view('login_form',$message);
+            return $this->load->view('login_form',$message);
         }
 
         catch(UserPasswordInvalidException $e)
         {
             $message['message'] = $e->getMessage();
-            return $this->load_view('login_form',$message);
+            return $this->load->view('login_form',$message);
         }
 
         $this->session->set_userdata(array(

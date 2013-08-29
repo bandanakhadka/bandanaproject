@@ -25,6 +25,7 @@ class SessionController extends CI_Controller
 		$this->data['courses'] = array_key_exists('courses',$data) ? $data['courses'] : null;
 		$this->data['flag'] = array_key_exists('flag', $data) ? $data['flag'] : null;
 		$this->data['message'] = array_key_exists('message', $data) ? $data['message'] : null;
+		$this->data['table'] = array_key_exists('table', $data) ? $data['table'] : null;
 
 		$this->load->view($path,$this->data);
 	}
@@ -41,7 +42,7 @@ class NonSessionController extends CI_Controller
 		$this->data = array();
 	}
 
-	public function load_view($path,$data=array())
+	/*public function load_view($path,$data=array())
 	{
 		$this->data['courses'] = array_key_exists('courses',$data) ? $data['courses'] : null;
 		$this->data['flag'] = array_key_exists('flag', $data) ? $data['flag'] : null;
@@ -50,7 +51,7 @@ class NonSessionController extends CI_Controller
 		$this->data['current_org'] = array_key_exists('current_org', $data) ? $data['current_org'] : null;
 
 		$this->load->view($path,$this->data);
-	}
+	}*/
 
 	public function check_session()
 	{
