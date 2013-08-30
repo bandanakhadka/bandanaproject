@@ -163,13 +163,9 @@ class MemberTest extends CIUnit_TestCase
 		 			'address'=>'ktm',		 		
 		 			'contact_number'=>234456,
 		 			'email'=>'bandana@mail.com',
-		 			'organization'=>$organization,
-		 			'is_active'=>1,
-		 			'is_deleted'=>0 
+		 			'organization'=>$organization
 		 			)
 				);
-		
-		$member->save();
 
 		$this->assertEquals($member->first_name,'bandana');
 		$this->assertEquals($member->last_name,'khadka');

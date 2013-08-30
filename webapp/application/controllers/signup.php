@@ -155,7 +155,7 @@ class Signup extends NonSessionController
                 'member_id'=>$member->id)
         );
 
-        redirect('dashboard');
+        redirect('goto/my/dashboard');
 
     }
 

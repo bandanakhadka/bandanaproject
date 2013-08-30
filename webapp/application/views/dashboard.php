@@ -66,25 +66,25 @@
 		</p>
 
 		<p>
-			<a href="dashboard/enroll_course"><h3>Enroll in a Course</h3></a>
+			<a href="dashboard/enroll/course"><h3>Enroll in a Course</h3></a>
 		</p>
 
 		<p>
-			<a href="dashboard/unenroll"><h3>Unenroll an enrolled Course</h3></a>
+			<a href="dashboard/unenroll/course"><h3>Unenroll an enrolled Course</h3></a>
 		</p>
 
 		<p>
-			<a href="dashboard/deactivate"><h3>Deactivate a Course</h3></a>
+			<a href="dashboard/deactivate/course"><h3>Deactivate a Course</h3></a>
 		</p>
 
 		<p>
-			<a href="dashboard/activate"><h3>Activate a deactivated Course</h3></a>
+			<a href="dashboard/activate/course"><h3>Activate a deactivated Course</h3></a>
 		</p>		
 	
 		<p></p>
 
 		<p>
-			<a href="../login/logout"><h3>Log out</h3></a>
+			<a href="../../../login/logged_out"><h3>Log out</h3></a>
 		</p>
 
 	</div>

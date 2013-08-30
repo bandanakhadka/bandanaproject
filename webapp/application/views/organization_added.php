@@ -34,7 +34,7 @@
 					<td width="150"><?php echo $organization->address;?></td>
 					<td width="100"><?php echo $organization->telephone;?></td>
 					<td width="150"><?php echo $organization->email;?></td>
-					<td width="50"><a href="organizations/view_members/<?php echo $organization->id;?>">View Members</a></td>
+					<td width="50"><a href="organization/<?php echo $organization->id;?>/members/view">View Members</a></td>
 				</tr>
 				<?php } ?>				
 			</table>
@@ -44,6 +44,6 @@
 		
 	</div>
 	<p></p>
-		<a href="organizations/add_courses/<?php echo $current_org->id;?>"><h4>Add Courses</h4></a>
+		<a href="organization/<?php echo $current_org->id;?>/subscribe/courses"><h4>Add Courses</h4></a>
 	</body>
 	</html>

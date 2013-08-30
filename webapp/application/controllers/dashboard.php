@@ -108,10 +108,10 @@ class Dashboard extends SessionController
             return $this->load_view('enroll_form',$list);
 		}
 
-		redirect('dashboard');
+		redirect('goto/my/dashboard');
 	}
 
-	public function unenroll()
+	public function unenroll_course()
 	{
 		$courses = array();
 		$enrollments = $this->member->enrollments;
@@ -134,16 +134,37 @@ class Dashboard extends SessionController
 		
 		$enrollment = Enrollment::find_valid_by_course_id_and_member_id($_POST['course_id'],$this->member->id);
 
-		if($enrollment)
-		{
-			$enrollment->delete();
+		try
+			{
+			if($enrollment)
+			{
+				$enrollment->delete();
+			}
 		}
 
-		redirect('dashboard');
+		catch(InactiveException $e)
+		{
+			$list['message'] = $e->getMessage();
+            $list['courses'] = $courses;
+            $list['flag'] = 0;
+
+            return $this->load_view('enroll_form',$list);
+		}
+
+		catch(DeletedException $e)
+		{
+			$list['message'] = $e->getMessage();
+            $list['courses'] = $courses;
+            $list['flag'] = 0;
+
+            return $this->load_view('enroll_form',$list);
+		}
+
+		redirect('goto/my/dashboard');
 				
 	}
 
-	public function deactivate()
+	public function deactivate_course()
 	{
 		$courses = array();
 		$enrollments = $this->member->enrollments;
@@ -171,11 +192,11 @@ class Dashboard extends SessionController
 			$enrollment->deactivate();
 		}
 
-		redirect('dashboard');
+		redirect('goto/my/dashboard');
 				
 	}
 
-	public function activate()
+	public function activate_course()
 	{
 		$courses = array();
 		$enrollments = $this->member->enrollments;
@@ -203,7 +224,7 @@ class Dashboard extends SessionController
 			$enrollment->activate();
 		}
 
-		redirect('dashboard');
+		redirect('goto/my/dashboard');
 				
 	}
 

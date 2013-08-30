@@ -43,7 +43,7 @@ class Login extends NonSessionController
         );
 
         $this->session->set_flashdata('success', 'You are logged in successfully!');
-        redirect('dashboard');
+        redirect('goto/my/dashboard');
 
     }
 

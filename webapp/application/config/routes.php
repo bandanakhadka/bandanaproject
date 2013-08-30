@@ -40,6 +40,14 @@
 
 $route['default_controller'] = "signup";
 $route['404_override'] = '';
+$route['goto/my/dashboard'] = 'dashboard';
+$route['goto/my/dashboard/enroll/course'] = 'dashboard/enroll_course';
+$route['goto/my/dashboard/unenroll/course'] = 'dashboard/unenroll_course';
+$route['goto/my/dashboard/deactivate/course'] = 'dashboard/deactivate_course';
+$route['goto/my/dashboard/activate/course'] = 'dashboard/activate_course';
+$route['login/logged_out'] = 'login/logout';
+$route['organization/(:any)/members/view'] = 'organizations/view_members/$1';
+$route['organization/(:any)/subscribe/courses'] = 'organizations/add_courses/$1';
 
 
 /* End of file routes.php */

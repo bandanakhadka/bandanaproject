@@ -136,7 +136,6 @@ class CourseTest extends CIUnit_TestCase
 			  ->will($this->returnValue(true)); 
 		$result1 = $course->upload_course($mock1,$config);
 		$this->assertTrue($result1);
-
 	}
 
 	public function test_upload_course_false()
