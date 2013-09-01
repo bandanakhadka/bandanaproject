@@ -46,6 +46,7 @@
 */
 
 $active_group = ENVIRONMENT;
+//$active_group = 'testing';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
