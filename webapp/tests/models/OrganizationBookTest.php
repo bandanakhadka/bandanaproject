@@ -53,6 +53,22 @@ class OrganizationBookTest extends CIUnit_TestCase
 		$org_book->organization = '';
 	}
 
+	public function test_set_organization_inactive_exception()
+	{
+		$org_book = new OrganizationBook();
+		$organization = Organization::find_by_id($this->organizations_fixt['2']['id']);
+		$this->setExpectedException('InactiveException');
+		$org_book->organization = $organization;
+	}
+
+	public function test_set_organization_deleted_exception()
+	{
+		$org_book = new OrganizationBook();
+		$organization = Organization::find_by_id($this->organizations_fixt['3']['id']);
+		$this->setExpectedException('DeletedException');
+		$org_book->organization = $organization;
+	}
+
 	public function test_set_book_exception()
 	{
 		$org_book = new OrganizationBook();
@@ -72,6 +88,22 @@ class OrganizationBookTest extends CIUnit_TestCase
 		$org_book = new OrganizationBook();
 		$this->setExpectedException('InvalidQuantityException');
 		$org_book->total_books = -3;
+	}
+
+	public function test_set_book_inactive_exception()
+	{
+		$org_book = new OrganizationBook();
+		$book = Book::find_by_id($this->books_fixt['2']['id']);
+		$this->setExpectedException('InactiveException');
+		$org_book->book = $book;
+	}
+
+	public function test_set_book_deleted_exception()
+	{
+		$org_book = new OrganizationBook();
+		$book = Book::find_by_id($this->books_fixt['3']['id']);
+		$this->setExpectedException('DeletedException');
+		$org_book->book = $book;
 	}
 
 	public function test_create()
@@ -97,9 +129,10 @@ class OrganizationBookTest extends CIUnit_TestCase
 
 	public function test_set_total_books_edit_exception()
 	{
-		$org_book = OrganizationBook::find_by_org_id_and_book_id($organization->id,$book->id);
+		$org_book = new OrganizationBook();
+		$org_book->total_books = 20;
 		$org_book->issued_books = 10;
-		$this->setExpectedException('InvalidQuantityException');
+		$this->setExpectedException('QuantityException');
 		$org_book->total_books = 8;
 	}
 
@@ -109,8 +142,8 @@ class OrganizationBookTest extends CIUnit_TestCase
 
 		$existing_quantity = $org_book->available_books;
 		$existing_quantity1 = $org_book->issued_books;
-		$org_book->available_books -= 1; 
-		$org_book->issued_books +=1;
+		
+		$org_book->issue_book_to_member();
 
 		$this->assertEquals($org_book->available_books,$existing_quantity-1);
 		$this->assertEquals($org_book->issued_books,$existing_quantity1+1);
@@ -122,12 +155,28 @@ class OrganizationBookTest extends CIUnit_TestCase
 
 		$existing_quantity = $org_book->available_books;
 		$existing_quantity1 = $org_book->issued_books;
-		$org_book->available_books += 1; 
-		$org_book->issued_books -=1;
+		
+		$org_book->book_returned_by_member();
 
 		$this->assertEquals($org_book->available_books,$existing_quantity+1);
 		$this->assertEquals($org_book->issued_books,$existing_quantity-1);
 
+	}
+
+	public function test_book_issued_to_member_exception()
+	{
+		$org_book = OrganizationBook::find_by_id($this->organization_books_fixt['2']['id']);
+		
+		$this->setExpectedException('InvalidIssueException');
+		$org_book->issue_book_to_member();
+	}
+
+	public function test_book_returned_by_member_exception()
+	{
+		$org_book = OrganizationBook::find_by_id($this->organization_books_fixt['2']['id']);
+		
+		$this->setExpectedException('InvalidReturnException');
+		$org_book->book_returned_by_member();
 	}
 
 }

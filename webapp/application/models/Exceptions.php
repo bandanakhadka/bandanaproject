@@ -91,3 +91,44 @@ class BlankOrgEmailException extends Exception
 /*FTP course upload*/
 class FTPException extends Exception
 {}
+
+/*books*/
+class EmptyNameException extends Exception
+{}
+
+class EmptyAuthorException extends Exception
+{}
+
+class EmptyLanguageException extends Exception
+{}
+
+class EmptyPriceException extends Exception
+{}
+
+class InvalidPriceException extends Exception
+{}
+
+class BookAlreadyExistsException extends Exception
+{}
+
+/*organization books*/
+class NoOrganizationException extends Exception
+{}
+
+class NoBookException extends Exception
+{}
+
+class EmptyQuantityException extends Exception
+{}
+
+class InvalidQuantityException extends Exception
+{}
+
+class InvalidIssueException extends Exception
+{}
+
+class InvalidReturnException extends Exception
+{}
+
+class QuantityException extends Exception
+{}

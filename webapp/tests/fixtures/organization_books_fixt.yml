@@ -1,2 +1,9 @@
 1:
 	id:1
+	org_id:1
+	book_id:1
+	total_books:20
+	issued_books:10
+	available_books:10
+	is_active:1
+	is_deleted:0

@@ -4,7 +4,7 @@ class BookTest extends CIUnit_TestCase
 {
 	protected $tables = array(
 							'books'=>'books',
-							'book_issue'=>'book_issue',
+							'issue_books'=>'issue_books',
 							'organization_books'=>'organization_books'
 							);
 
@@ -106,18 +106,12 @@ class BookTest extends CIUnit_TestCase
 
 	public function test_create_book_with_exception()
 	{
-		$book = Book::create(array(
-				'name'=>'Shirish ko Ful',
-				'author'=>'Parijat',
-				'language'=>'Nepali',
-				'price'=>200
-				)
-			);
+		$book = Book::find_by_id($this->books_fixt['4']['id']);
 
 		$this->setExpectedException('BookAlreadyExistsException');
 		$new_book = Book::create(array(
-				'name'=>'Shirish ko Ful',
-				'author'=>'Parijat',
+				'name'=>'Palpasa Cafe',
+				'author'=>'Narayan Wagle',
 				'language'=>'Nepali',
 				'price'=>200
 				)

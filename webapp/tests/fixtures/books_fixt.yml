@@ -1,2 +1,36 @@
 1:
 	id:1
+	name:"Learning English"
+	author:"Peter"
+	price:200
+	language:"English"
+	is_active:1
+	is_deleted:0
+
+2:
+	id:2
+	name:"Learning to Communicate"
+	author:"Peter"
+	price:200
+	language:"English"
+	is_active:0
+	is_deleted:0
+
+3:
+	id:3
+	name:"Radha"
+	author:"Krishna"
+	price:200
+	language:"Nepali"
+	is_active:0
+	is_deleted:1
+
+
+4:
+	id:4
+	name:"Palpasa Cafe"
+	author:"Narayan Wagle"
+	price:200
+	language:"Nepali"
+	is_active:1
+	is_deleted:0
