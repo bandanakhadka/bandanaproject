@@ -1,2 +1,6 @@
 1:
 	id:1
+	book_id:1
+	member_id:4
+	is_active:1
+	is_deleted:0

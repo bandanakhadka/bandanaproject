@@ -52,6 +52,11 @@ class OrganizationBook extends BaseModel
 			throw new InvalidQuantityException("Please Enter valid no. of books.");
 		}
 
+		if($quantity<$this->issued_books)
+		{
+			throw new QuantityException('Invalid quantity entered!');
+		}
+
 		$this->assign_attribute('total_books',$quantity);
 	}
 
@@ -86,24 +91,30 @@ class OrganizationBook extends BaseModel
 		return $org_book;
 	} 
 
-	public function edit_total_books($data)
-	{
-		$org_book = OrganizationBook::find_by_org_id_and_book_id($data['organization']->id,$data['book']->id);
-		if($data['quantity'] < $org_book->issued_books)
-		{
-			throw new QuantityException('Invalid quantity entered!');
-		}
-		$org_book->total_books = $data['quantity'];
-	}
-
 	public function issue_book_to_member()
 	{
+		if ($this->available_books == 0)
+        {
+          throw new InvalidIssueException("Invalid Quantity Given");  
+        }
 
+        $this->issued_books += 1;
+        $this->available_books -= 1;
+        $this->save();
 	}
 
 	public function book_returned_by_member()
 	{
-		
+		if($this->issued_books==0)
+        {
+           throw new InvalidReturnException("invalid transaction");
+        }
+
+        $this->issued_books -=1 ;
+        $this->available_books +=1;
+        $this->save();
 	}
+
+
 
 }

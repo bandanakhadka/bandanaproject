@@ -104,7 +104,7 @@ class CourseTest extends CIUnit_TestCase
         			 ->getMock();
         return $mock;
 	}
-
+	
 	public function test_upload_course()
 	{
 		$config['hostname'] = 'bandana.com';

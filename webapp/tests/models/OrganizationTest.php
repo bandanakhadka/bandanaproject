@@ -5,7 +5,8 @@ class OrganizationTest extends CIUnit_TestCase
 	protected $tables = array(
 		'organizations'=>'organizations',
 		'organization_enrollment'=>'organization_enrollment',
-		'member'=>'member'
+		'member'=>'member', 
+		'courses'=>'courses'
 		);
 
 	public function __construct()
@@ -60,7 +61,7 @@ class OrganizationTest extends CIUnit_TestCase
 
 		$organization->regenerate();
 
-		$this->assertEquals($organization->member_count,3);
+		$this->assertEquals($organization->member_count,2);
 		$this->assertEquals($organization->org_enrollment_count,1);
 	}
 
@@ -71,7 +72,7 @@ class OrganizationTest extends CIUnit_TestCase
 
 		$organization = Organization::find_by_id(1);
 		$value = $method->invoke($organization);
-		$this->assertEquals($value,3);
+		$this->assertEquals($value,2);
 	}
 
 	public function test_name_exception()
@@ -116,6 +117,21 @@ class OrganizationTest extends CIUnit_TestCase
 		$this->assertEquals($organization->address,'chabahil');
 		$this->assertEquals($organization->telephone,123456);
 		$this->assertEquals($organization->email,'olivemedia@mail.com');
+	}
+
+	public function test_enroll_members_in_course()
+	{
+		$organization = Organization::find_by_id($this->organizations_fixt['1']['id']);
+		$org_enrollment = OrganizationEnrollment::find_by_id($this->organization_enrollment_fixt['1']['id']);
+
+		$organization->enroll_members_in_course($org_enrollment->course);
+
+		foreach($organization->members as $member)
+		{
+			$enrollment = Enrollment::find_by_member_id_and_course_id($member->id,$org_enrollment->course_id);
+			$this->assertEquals($enrollment->member_id,$member->id);
+			$this->assertEquals($enrollment->course_id,$org_enrollment->course_id);
+		}
 	}
 
 }

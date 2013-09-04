@@ -3,7 +3,37 @@
 	org_id:1
 	book_id:1
 	total_books:20
-	issued_books:10
-	available_books:10
+	issued_books:5
+	available_books:15
+	is_active:1
+	is_deleted:0
+
+2:
+	id:2
+	org_id:1
+	book_id:4
+	total_books:20
+	issued_books:20
+	available_books:0
+	is_active:1
+	is_deleted:0
+
+3:
+	id:3
+	org_id:4
+	book_id:1
+	total_books:20
+	issued_books:0
+	available_books:20
+	is_active:1
+	is_deleted:0
+
+4:
+	id:4
+	org_id:1
+	book_id:5
+	total_books:20
+	issued_books:20
+	available_books:0
 	is_active:1
 	is_deleted:0

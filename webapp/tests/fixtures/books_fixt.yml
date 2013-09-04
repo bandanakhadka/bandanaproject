@@ -34,3 +34,12 @@
 	language:"Nepali"
 	is_active:1
 	is_deleted:0
+
+5:
+	id:5
+	name:"Madras Cafe"
+	author:"John"
+	price:200
+	language:"English"
+	is_active:1
+	is_deleted:0

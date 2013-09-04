@@ -16,9 +16,6 @@ class Migration_Add_table_issue_books extends CI_Migration
 			'member_id'=>array(
 				'type'=>'int'
 				),
-			'issued_quantity'=>array(
-				'type'=>'int'
-				),
 			'is_active'=>array(
 				'type'=>'int'
 				),

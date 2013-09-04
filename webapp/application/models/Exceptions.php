@@ -132,3 +132,19 @@ class InvalidReturnException extends Exception
 
 class QuantityException extends Exception
 {}
+
+/*member issue books */
+class BookNotSelectedException extends Exception
+{}
+
+class CannotIssueException extends Exception
+{}
+
+class LimitedBookIssueException extends Exception
+{}
+
+class AlreadyIssuedException extends Exception
+{}
+
+class UnavailableBookException extends Exception
+{}

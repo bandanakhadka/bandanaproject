@@ -130,7 +130,6 @@ class OrganizationBookTest extends CIUnit_TestCase
 	public function test_set_total_books_edit_exception()
 	{
 		$org_book = new OrganizationBook();
-		$org_book->total_books = 20;
 		$org_book->issued_books = 10;
 		$this->setExpectedException('QuantityException');
 		$org_book->total_books = 8;
@@ -140,26 +139,26 @@ class OrganizationBookTest extends CIUnit_TestCase
 	{
 		$org_book = OrganizationBook::find_by_id($this->organization_books_fixt['1']['id']);
 
-		$existing_quantity = $org_book->available_books;
-		$existing_quantity1 = $org_book->issued_books;
+		$quantity = $org_book->available_books;
+		$quantity1 = $org_book->issued_books;
 		
 		$org_book->issue_book_to_member();
 
-		$this->assertEquals($org_book->available_books,$existing_quantity-1);
-		$this->assertEquals($org_book->issued_books,$existing_quantity1+1);
+		$this->assertEquals($org_book->available_books,$quantity-1);
+		$this->assertEquals($org_book->issued_books,$quantity1+1);
 	}
 
 	public function test_book_returned_by_member()
 	{
 		$org_book = OrganizationBook::find_by_id($this->organization_books_fixt['1']['id']);
 
-		$existing_quantity = $org_book->available_books;
-		$existing_quantity1 = $org_book->issued_books;
+		$quantity = $org_book->available_books;
+		$quantity1 = $org_book->issued_books;
 		
 		$org_book->book_returned_by_member();
 
-		$this->assertEquals($org_book->available_books,$existing_quantity+1);
-		$this->assertEquals($org_book->issued_books,$existing_quantity-1);
+		$this->assertEquals($org_book->available_books,$quantity+1);
+		$this->assertEquals($org_book->issued_books,$quantity1-1);
 
 	}
 
@@ -173,7 +172,7 @@ class OrganizationBookTest extends CIUnit_TestCase
 
 	public function test_book_returned_by_member_exception()
 	{
-		$org_book = OrganizationBook::find_by_id($this->organization_books_fixt['2']['id']);
+		$org_book = OrganizationBook::find_by_id($this->organization_books_fixt['3']['id']);
 		
 		$this->setExpectedException('InvalidReturnException');
 		$org_book->book_returned_by_member();
