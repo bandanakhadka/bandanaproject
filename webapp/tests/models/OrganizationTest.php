@@ -75,6 +75,16 @@ class OrganizationTest extends CIUnit_TestCase
 		$this->assertEquals($value,2);
 	}
 
+	public function test_count_org_enrollments()
+	{
+		$method = new ReflectionMethod('Organization', 'count_org_enrollments');
+		$method->setAccessible(true);
+
+		$organization = Organization::find_by_id(1);
+		$value = $method->invoke($organization);
+		$this->assertEquals($value,1);
+	}
+
 	public function test_name_exception()
 	{
 		$organization = new Organization();
@@ -131,6 +141,21 @@ class OrganizationTest extends CIUnit_TestCase
 			$enrollment = Enrollment::find_by_member_id_and_course_id($member->id,$org_enrollment->course_id);
 			$this->assertEquals($enrollment->member_id,$member->id);
 			$this->assertEquals($enrollment->course_id,$org_enrollment->course_id);
+		}
+	}
+
+	public function test_rollback_enroll_members_in_course()
+	{
+		$organization = Organization::find_by_id($this->organizations_fixt['4']['id']);
+		$org_enrollment = OrganizationEnrollment::find_by_id($this->organization_enrollment_fixt['3']['id']);
+
+		$this->setExpectedException("InactiveException");
+		$organization->enroll_members_in_course($org_enrollment->course);
+
+		foreach($organization->members as $member)
+		{
+			$enrollment = Enrollment::find_by_member_id_and_course_id($member->id,$org_enrollment->course_id);
+			$this->assertNull($enrollment);
 		}
 	}
 

@@ -5,7 +5,8 @@ class OrganizationBookTest extends CIUnit_TestCase
 	protected $tables = array(
 							'organization_books'=>'organization_books',
 							'books'=>'books',
-							'organizations'=>'organizations'							
+							'organizations'=>'organizations',
+							'issue_books'=>'issue_books'							
 							);
 
 	public function __construct()

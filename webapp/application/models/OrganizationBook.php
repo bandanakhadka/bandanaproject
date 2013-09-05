@@ -18,6 +18,14 @@ class OrganizationBook extends BaseModel
 			)
 		);
 
+	static $has_many = array(
+		array(
+			'issue_books',
+			'class_name'=>'IssueBook',
+			'foreign_key'=>'org_book_id'
+			)
+		);
+
 	public function set_organization($organization)
 	{
 		if($organization == '')

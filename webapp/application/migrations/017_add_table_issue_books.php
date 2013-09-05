@@ -10,7 +10,7 @@ class Migration_Add_table_issue_books extends CI_Migration
 				'constraint'=>5,
 				'auto_increment'=>true
 				),
-			'book_id'=>array(
+			'org_book_id'=>array(
 				'type'=>'int'
 				),
 			'member_id'=>array(

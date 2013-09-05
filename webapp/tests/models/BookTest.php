@@ -4,7 +4,6 @@ class BookTest extends CIUnit_TestCase
 {
 	protected $tables = array(
 							'books'=>'books',
-							'issue_books'=>'issue_books',
 							'organization_books'=>'organization_books'
 							);
 

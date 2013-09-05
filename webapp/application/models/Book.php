@@ -7,11 +7,6 @@ class Book extends BaseModel
 
 	static $has_many = array(
 		array(
-			'issue_books',
-            'class_name'=>'IssueBook',
-            'foreign_key'=>'book_id'
-		),
-		array(
 			'organization_books',
 			'class_name'=>'OrganizationBook',
 			'foreign_key'=>'book_id'

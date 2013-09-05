@@ -43,3 +43,21 @@
 	language:"English"
 	is_active:1
 	is_deleted:0
+
+6:
+	id:6
+	name:"MunaMadan"
+	author:"Laxmi"
+	price:200
+	language:"Nepali"
+	is_active:1
+	is_deleted:0
+
+7:
+	id:7
+	name:"Seto Baagh"
+	author:"Diamond SBJ"
+	price:200
+	language:"Nepali"
+	is_active:1
+	is_deleted:0

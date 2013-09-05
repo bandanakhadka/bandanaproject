@@ -33,3 +33,12 @@
 	category:"science"
 	is_active:1
 	is_deleted:0
+
+5:
+	id:5
+	course_code:"00J"
+	course_name:"history"
+	duration_in_hrs:3
+	category:"history"
+	is_active:1
+	is_deleted:0

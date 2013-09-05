@@ -1,6 +1,48 @@
 1:
 	id:1
-	book_id:1
+	org_book_id:1
 	member_id:4
+	is_active:1
+	is_deleted:0
+
+2:
+	id:2
+	org_book_id:2
+	member_id:4
+	is_active:1
+	is_deleted:0
+
+3:
+	id:3
+	org_book_id:3
+	member_id:4
+	is_active:1
+	is_deleted:0
+
+4:
+	id:4
+	org_book_id:4
+	member_id:4
+	is_active:1
+	is_deleted:0
+
+5:
+	id:5
+	org_book_id:5
+	member_id:4
+	is_active:1
+	is_deleted:0
+
+6:
+	id:6
+	org_book_id:6
+	member_id:4
+	is_active:1
+	is_deleted:0
+
+7:
+	id:7
+	org_book_id:6
+	member_id:1
 	is_active:1
 	is_deleted:0

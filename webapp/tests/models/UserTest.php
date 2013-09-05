@@ -126,4 +126,23 @@ class UserTest extends CIUnit_TestCase
 		$this->assertEquals($user->email,'bandana@mail.com');
 	}
 
+	public function test_check_login_invalid_user()
+	{
+		$this->setExpectedException("UserInvalidException");
+		$user = User::check_login(array('user_name'=>'bandana','password'=>''));
+	}
+
+	public function test_check_login_invalid_password()
+	{
+		$this->setExpectedException("UserPasswordInvalidException");
+		$user = User::check_login(array('user_name'=>'user','password'=>''));
+	}
+
+	public function test_check_login_valid()
+	{
+		$user = User::check_login(array('user_name'=>'user','password'=>'bbb'));
+		$user1 = User::find_by_id($this->users_fixt['1']['id']);
+		$this->assertEquals($user->id,$user1->id);
+	}
+
 }

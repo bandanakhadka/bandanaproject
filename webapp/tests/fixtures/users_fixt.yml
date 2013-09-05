@@ -1,2 +1,6 @@
 1:
 	id:1
+	user_name:'user'
+	password:'5cb138284d431abd6a053a56625ec088bfb88912'
+	member_id:1
+	email:'user@mail.com'
