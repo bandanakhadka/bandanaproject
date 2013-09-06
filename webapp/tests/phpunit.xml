@@ -40,6 +40,10 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">C:\Users\Mingma Sherpa\Documents\GitHub\bandanaproject\webapp\application\models</directory>
+            <exclude>
+                <file>C:\Users\Mingma Sherpa\Documents\GitHub\bandanaproject\webapp\application\models\BaseModel.php
+                </file>
+            </exclude>
         </whitelist>
     </filter>
 

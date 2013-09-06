@@ -17,6 +17,16 @@ class BaseModel extends ActiveRecord\Model
         }
 	}
 
+    public function set_is_active($is_active)
+    {
+        $this->assign_attribute('is_active',$is_active);
+    }
+
+    public function set_is_deleted($is_deleted)
+    {
+        $this->assign_attribute('is_deleted',$is_deleted);
+    }
+
 	public function delete()
     {
         $this->is_active = 0;

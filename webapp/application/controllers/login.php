@@ -42,7 +42,25 @@ class Login extends NonSessionController
                 'member_id'=>$user->member->id)
         );
 
-        $this->session->set_flashdata('success', 'You are logged in successfully!');
+        $org_name = $user->member->organization->name;
+
+        $cookie_value = $this->input->cookie('org_cookie') ? $this->input->cookie('org_cookie') : null;
+
+        if($cookie_value && $cookie_value == $org_name)
+        {
+            $this->session->set_flashdata('success', 'Welcome to '.$cookie_value.'!');
+        }
+        else
+        {
+            $cookie = array(
+                'name'=>'org_cookie',
+                'value'=>$org_name,
+                'expire'=>'56565'
+                );
+            $this->input->set_cookie($cookie);
+            $this->session->set_flashdata('success', 'You are logged in successfully!');
+        }
+
         redirect('goto/my/dashboard');
 
     }

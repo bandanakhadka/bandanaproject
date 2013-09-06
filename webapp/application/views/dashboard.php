@@ -23,9 +23,6 @@
 		?>
 
 	<div id="dashboard">
-
-	    <p class="heading"><h4>Welcome!</h4></p>
-
 		<p>
 			<?php echo "First Name: ".$current_member->first_name; ?>
 		</p>

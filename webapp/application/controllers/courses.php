@@ -9,7 +9,7 @@ class Courses extends CI_Controller
     
     public function index()
     {
-        $list['organizations'] = Organization::list_all();
+        $list['organizations'] = Organization::find('all');
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
@@ -22,7 +22,9 @@ class Courses extends CI_Controller
             'duration_in_hrs' => $_POST['duration_in_hrs'],
             'category' => $_POST['category'],
         );
-		
+
+        $list['organizations'] = Organization::find('all');
+
         try
         {
     	    $course = Course::create($data);
@@ -31,32 +33,28 @@ class Courses extends CI_Controller
         catch(BlankCourseCodeException $e)
         {
             $list['message'] = $e->getMessage();
-            $list['organizations'] = Organization::list_all();
             return $this->load->view('course_form',$list); 
         }
 
         catch(BlankCourseNameException $e)
         {
             $list['message'] = $e->getMessage();
-            $list['organizations'] = Organization::list_all();
             return $this->load->view('course_form',$list); 
         }
 
         catch(BlankDurationException $e)
         {
             $list['message'] = $e->getMessage();
-            $list['organizations'] = Organization::list_all();
             return $this->load->view('course_form',$list); 
         }
 
         catch(BlankCategoryException $e)
         {
             $list['message'] = $e->getMessage();
-            $list['organizations'] = Organization::list_all();
             return $this->load->view('course_form',$list); 
         }
 
-        $list['courses'] = Course::list_all();
+        $list['courses'] = Course::find('all');
 	    $this->load->view('course_added',$list);
 
 	}

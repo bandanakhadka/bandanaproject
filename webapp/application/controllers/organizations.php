@@ -51,7 +51,7 @@ class Organizations extends CI_Controller
         }
 
         $list['current_org'] = $organization;
-        $list['organizations'] = Organization::list_all();
+        $list['organizations'] = Organization::find('all');
 	    $this->load->view('organization_added',$list);
 
 	}
@@ -59,7 +59,7 @@ class Organizations extends CI_Controller
     public function add_courses($org_id)
     {
 
-        $list['courses'] = Course::list_all();
+        $list['courses'] = Course::find('all');
         $list['flag']  = 0;
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
@@ -86,7 +86,6 @@ class Organizations extends CI_Controller
         catch(Exception $e) 
         {
             $list['message'] =  $e->getMessage();
-            $list['courses'] = Course::all();
             $list['flag']  = 0;
 
             return $this->load->view('organization_enroll',$list);
@@ -95,7 +94,6 @@ class Organizations extends CI_Controller
         catch(EnrollmentException $e) 
         {
             $list['message'] =  $e->getMessage();
-            $list['courses'] = Course::all();
             $list['flag']  = 0;
 
             return $this->load->view('organization_enroll',$list);
@@ -104,7 +102,6 @@ class Organizations extends CI_Controller
         catch(InactiveException $e)
         {
             $list['message'] =  $e->getMessage();
-            $list['courses'] = Course::all();
             $list['flag']  = 0;
 
             return $this->load->view('organization_enroll',$list);
@@ -113,7 +110,6 @@ class Organizations extends CI_Controller
         catch(DeletedException $e)
         {
             $list['message'] =  $e->getMessage();
-            $list['courses'] = Course::all();
             $list['flag']  = 0;
 
             return $this->load->view('organization_enroll',$list);
@@ -160,7 +156,6 @@ class Organizations extends CI_Controller
         catch(Exception $e)
         {
             $list['message'] =  $e->getMessage();
-            $list['courses'] = $courses;
             $list['flag']  = 2;
 
             return $this->load->view('organization_enroll',$list);
@@ -213,7 +208,6 @@ class Organizations extends CI_Controller
         catch(Exception $e)
         {
             $list['message'] =  $e->getMessage();
-            $list['courses'] = $courses;
             $list['flag']  = 2;
 
             return $this->load->view('organization_enroll',$list);
@@ -265,7 +259,6 @@ class Organizations extends CI_Controller
         catch(Exception $e)
         {
             $list['message'] =  $e->getMessage();
-            $list['courses'] = $courses;
             $list['flag']  = 3;
 
             return $this->load->view('organization_enroll',$list);
@@ -329,21 +322,18 @@ class Organizations extends CI_Controller
 
         catch(InactiveException $e)
         {
-            $list['courses'] = $courses;
             $list['message'] = $e->getMessage();
             return $this->load->view('enroll_all_members',$list);
         }
 
         catch(DeletedException $e)
         {
-            $list['courses'] = $courses;
             $list['message'] = $e->getMessage();
             return $this->load->view('enroll_all_members',$list);
         }
 
         catch(Exception $e)
         {
-            $list['courses'] = $courses;
             $list['message'] = $e->getMessage();
             return $this->load->view('enroll_all_members',$list);
         }

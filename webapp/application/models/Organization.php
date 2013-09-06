@@ -102,12 +102,6 @@ class Organization extends BaseModel
         $this->save();
     }
 
-    public function list_all()
-    {
-    	$organization = Organization::find('all');
-    	return $organization;
-    }
-
     public function enroll_members_in_course($course)
     {
         $connect = Enrollment::connection();

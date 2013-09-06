@@ -72,6 +72,11 @@ class User extends ActiveRecord\Model
     	$this->assign_attribute('email',$email);
     }
 
+    public function set_member($member)
+    {
+        $this->assign_attribute('member_id',$member->id);
+    }
+
     public function get_user_name()
     {
         return $this->read_attribute('user_name');
@@ -104,11 +109,6 @@ class User extends ActiveRecord\Model
         }
         
         throw new UserPasswordInvalidException("Invalid Password!");
-    }
-
-    public function set_member($member)
-    {
-        $this->assign_attribute('member_id',$member->id);
     }
 
     public static function create($data)

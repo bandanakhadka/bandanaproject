@@ -11,7 +11,7 @@ class Signup extends NonSessionController
     {
         $this->check_session();
 
-        $list['organizations'] = Organization::list_all();
+        $list['organizations'] = Organization::find('all');
 
         if($_SERVER['REQUEST_METHOD'] !== 'POST')
         {
@@ -29,7 +29,9 @@ class Signup extends NonSessionController
             'email' => $_POST['email'],
             'organization' => $organization
         );
-
+       
+        $message['organizations'] = Organization::find('all');
+        
         try
         {
             $member = Member::create($data);
@@ -50,80 +52,60 @@ class Signup extends NonSessionController
         catch(BlankFirstNameException $e)
         {
             $message['message'] = $e->getMessage();
-            $message['organizations'] = Organization::list_all();
-
             return $this->load->view('signup_form',$message); 
         }
 
         catch(BlankLastNameException $e)
         {
             $message['message'] = $e->getMessage();
-            $message['organizations'] = Organization::list_all();
-
             return $this->load->view('signup_form',$message); 
         }
 
         catch(BlankSexException $e)
         {
             $message['message'] = $e->getMessage();
-            $message['organizations'] = Organization::list_all();
-
             return $this->load->view('signup_form',$message); 
         }
         
         catch(BlankAddressException $e)
         {
             $message['message'] = $e->getMessage();
-            $message['organizations'] = Organization::list_all();
-
             return $this->load->view('signup_form',$message); 
         }
 
         catch(BlankContactException $e)
         {
             $message['message'] = $e->getMessage();
-            $message['organizations'] = Organization::list_all();
-
             return $this->load->view('signup_form',$message); 
         }
 
         catch(BlankEmailException $e)
         {
             $message['message'] = $e->getMessage();
-            $message['organizations'] = Organization::list_all();
-
             return $this->load->view('signup_form',$message); 
         }
 
         catch(InactiveException $e)
         {
             $message['message'] = $e->getMessage();
-            $message['organizations'] = Organization::list_all();
-
             return $this->load->view('signup_form',$message); 
         }
 
         catch(DeletedException $e)
         {
             $message['message'] = $e->getMessage();
-            $message['organizations'] = Organization::list_all();
-
             return $this->load->view('signup_form',$message); 
         }
 
         catch(InvalidOrganizationException $e)
         {
             $message['message'] = $e->getMessage();
-            $message['organizations'] = Organization::list_all();
-
             return $this->load->view('signup_form',$message); 
         }
 
         catch(BlankUserNameException $e)
         {
             $message['message'] = $e->getMessage();
-            $message['organizations'] = Organization::list_all();
-
             return $this->load->view('signup_form',$message); 
         }
 
@@ -138,16 +120,12 @@ class Signup extends NonSessionController
         catch(BlankPasswordException $e)
         {
             $message['message'] = $e->getMessage();
-            $message['organizations'] = Organization::list_all();
-
             return $this->load->view('signup_form',$message); 
         }
 
         catch(ConfirmPasswordException $e)
         {
             $message['message'] = $e->getMessage();
-            $message['organizations'] = Organization::list_all();
-
             return $this->load->view('signup_form',$message); 
         }
 

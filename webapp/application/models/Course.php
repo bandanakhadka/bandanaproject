@@ -80,12 +80,6 @@ class Course extends BaseModel
         return $this->read_attribute('category');
     }
 
-    public function list_all()
-    {
-    	$course = Course::find('all');
-    	return $course;
-    }
-
     public static function create($data)
     {
     	$course = new course();
