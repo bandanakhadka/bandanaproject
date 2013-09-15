@@ -1,89 +1,82 @@
 <!DOCTYPE html>
-	<html lang="en">
-	<head>
-	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	    <title>Dashboard</title>
-	</head>
-	<body>
-		<?php 
-			if($this->session->flashdata('error'))
-			{
-				echo $this->session->flashdata('error');
-			}
+<html lang="en">
+	<?php
+    	include_once('header-1.php');
+  	?>
+		<div class="container">
+			<h2></h2>
 
-			if($this->session->flashdata('success'))
-			{
-				echo $this->session->flashdata('success');
-			}
+			<table class="table table-bordered">
+				<tr class="success">
+					<td>First Name</td>
+					<td><?php echo $current_member->first_name; ?></td>
+				</tr>
+				<tr class="warning">
+					<td>Last Name</td>
+					<td><?php echo $current_member->last_name; ?></td>
+				</tr>
+				<tr class="success">
+					<td>Gender</td>
+					<td><?php echo $current_member->sex; ?></td>
+				</tr>
+				<tr class="warning">
+					<td>Address</td>
+					<td><?php echo $current_member->address; ?></td>
+				</tr>
+				<tr class="success">
+					<td>Contact</td>
+					<td><?php echo $current_member->contact_number; ?></td>
+				</tr>
+				<tr class="warning">
+					<td>Email</td>
+					<td><?php echo $current_member->email;?></td>
+				</tr>
+				<tr class="success">
+					<td>Organization</td>
+					<td><?php echo $current_organization->name;?></td>
+				</tr>
+				<tr class="warning">
+					<td>Courses Enrolled</td>
+					<td>
+						<?php 
+							$i = 1;
+							foreach ($courses as $course)
+							{
+								echo $i.". ".$course->course_name."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+								$i++;
+							}
+						?>
+					</td>
+				</tr>
+			</table>
+			<h2></h2>
 
-			if($this->session->flashdata('logout'))
-			{
-				echo $this->session->flashdata('logout');
-			}
-		?>
+			<p>
+				<a href="/goto/my/dashboard/enroll/course"><h4>Enroll in a Course</h4></a>
+			</p>
 
-	<div id="dashboard">
-		<p>
-			<?php echo "First Name: ".$current_member->first_name; ?>
-		</p>
+			<p>
+				<a href="/goto/my/dashboard/unenroll/course"><h4>Unenroll an enrolled Course</h4></a>
+			</p>
 
-		<p>
-			<?php echo "Last Name: ".$current_member->last_name; ?>
-		</p>
+			<p>
+				<a href="/goto/my/dashboard/deactivate/course"><h4>Deactivate a Course</h4></a>
+			</p>
 
-		<p>
-			<?php echo "Sex: ".$current_member->sex;  ?>
-		</p>
+			<p>
+				<a href="/goto/my/dashboard/activate/course"><h4>Activate a deactivated Course</h4></a>
+			</p>		
+			<h1></h1>
 
-		<p>
-			<?php echo "Address: ".$current_member->address; ?>
-		</p>
+			<p>
+				<a href="/login/logged_out"><h3>Log out</h3></a>
+			</p>
 
-		<p>
-			<?php echo "Contact: ".$current_member->contact_number; ?>
-		</p>
+			<hr>
 
-		<p>
-			<?php echo "Email: ".$current_member->email;?>
-		</p>
-
-		<p>
-			<?php echo "Organization: ".$current_organization->name;?>
-		</p>
-
-		<p>
-			<?php echo "Courses Enrolled: &nbsp;&nbsp;";
-			$i = 1;
-			foreach ($courses as $course)
-			{
-				echo $i.". ".$course->course_name."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-				$i++;
-			}
-			?>
-		</p>
-
-		<p>
-			<a href="dashboard/enroll/course"><h3>Enroll in a Course</h3></a>
-		</p>
-
-		<p>
-			<a href="dashboard/unenroll/course"><h3>Unenroll an enrolled Course</h3></a>
-		</p>
-
-		<p>
-			<a href="dashboard/deactivate/course"><h3>Deactivate a Course</h3></a>
-		</p>
-
-		<p>
-			<a href="dashboard/activate/course"><h3>Activate a deactivated Course</h3></a>
-		</p>		
-	
-		<p></p>
-
-		<p>
-			<a href="../../../login/logged_out"><h3>Log out</h3></a>
-		</p>
-
-	</div>
+		    <?php 
+		        include_once('footer.php');
+		    ?>
+		</div>
 	</body>
-	</html>
+</html>

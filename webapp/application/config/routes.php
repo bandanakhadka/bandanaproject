@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "signup";
+$route['default_controller'] = "indexpage";
 $route['404_override'] = '';
 $route['goto/my/dashboard'] = 'dashboard';
 $route['goto/my/dashboard/enroll/course'] = 'dashboard/enroll_course';

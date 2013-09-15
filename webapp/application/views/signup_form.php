@@ -1,101 +1,75 @@
 <!DOCTYPE html>
-	<html lang="en">
-	<head>
-	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	    <title>Signup Form</title>
-	</head>
+<html lang="en">
+
+	<?php
+	include_once('header.php');
+	?>
+
 	<body>
-		<?php
-			if(isset($message))
-			{
-				echo $message;
-			}
+		<div class="container">
+		    <form class="form-signin" method="post">
+		    	<h2 class="form-signin-heading">New Member Signup</h2>
+			    <p>
+			        <input type="text" class="form-control" placeholder="First Name" name="first_name" autofocus>
+			    </p>
 
-			if($this->session->flashdata('error'))
-			{
-				echo $this->session->flashdata('error');
-			}
+			    <p>
+			        <input type="text" class="form-control" placeholder="Last Name" name="last_name" >
+			    </p>
 
-			if($this->session->flashdata('success'))
-			{
-				echo $this->session->flashdata('success');
-			}
-		?>
-	 
-	<div id="signup_form">
-	 
-	    <p class="heading"><h4>New User Signup</h4></p>
+			    <p>
+			        <select class="form-control" name="sex">
+			        	<option value="" disabled selected>Select Gender</option>
+			        	<option value="male">Male</option>
+			        	<option value="female">Female</option>
+				 	</select>
+			    </p>
+			 
+			 	<p>
+			        <input type="text" class="form-control" placeholder="Address" name="address" >
+			    </p>
 
-	    <form method='post'>
+				<p>
+			        <input type="text" class="form-control" placeholder="Contact Number" name="contact_number" >
+			    </p>
 
-		    <p>
-		        <label for="first_name">Firstname: </label>
-		        <input type="text" name="first_name" >
-		    </p>
+			    <p>
+			        <input type="text" class="form-control" placeholder="E-mail" name="email" >
+			    </p>
 
-		    <p>
-		        <label for="last_name">Lastname: </label>
-		        <input type="text" name="last_name" >
-		    </p>
+			    <p>
+			    	<select class="form-control" name="organization_id" >
+				    	<option value="" disabled selected>Select Organization</option>	    	
+						<?php foreach($organizations as $organization){  ?>
+						<option value="<?php echo $organization->id;?>"><?php echo $organization->name;?></option>
+						<?php } ?>
+				 	</select>
+				</p>
 
-		    <p>
-		        <label for="sex">Sex: </label>
-		        <select name="sex">
-		        	<option></option>
-		        	<option value="male">Male</option>
-		        	<option value="female">Female</option>
-			 	</select>
-		    </p>
-		 
-		 	<p>
-		        <label for="address">Address: </label>
-		        <input type="text" name="address" >
-		    </p>
+			    <p>
+			        <input type="text" class="form-control" placeholder="User Name" name="user_name" >
+			    </p>
 
-			<p>
-		        <label for="contact_number">Contact Number: </label>
-		        <input type="text" name="contact_number" >
-		    </p>
+			    <p>
+			        <input type="password" class="form-control" placeholder="Password" name="password" >
+			    </p>
 
-		    <p>
-		        <label for="email">E-mail: </label>
-		        <input type="email" name="email" >
-		    </p>
+			    <p>
+			        <input type="password" class="form-control" placeholder="Confirm Password" name="pass_conf" >
+			    </p>
+			    
+			    <p>
+			    	<button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Create my Account</button>
+			    </p>	
 
-		    <p>
-		    	<label for="organization">Organization: </label>
-		    	<select name="organization_id">
-			    	<option></option>	    	
-					<?php foreach($organizations as $organization){  ?>
-					<option value="<?php echo $organization->id;?>"><?php echo $organization->name;?></option>
-					<?php } ?>
-			 	</select>
-			</p>
+			    <a href="/login"><h3>Log In</h3></a>	 
+		    </form>			    
 
-		    <p>
-		        <label for="user_name">Username: </label>
-		        <input type="text" name="user_name" >
-		    </p>
+		    <hr>
 
-		    <p>
-		        <label for="password">Password: </label>
-		        <input type="password" name="password" >
-		    </p>
-
-		    <p>
-		        <label for="pass_conf">Confirm Password: </label>
-		        <input type="password" name="pass_conf" >
-		    </p>
-		    
-		    <p>
-		    	<input type="submit" name="submit" value="Create my account">
-		    </p>
-	 
-	    </form>
-	 
-	</div>
-	 
-	<a href="login"><h3>Log In</h3></a>
-
+		    <?php 
+		    	include_once('footer.php');
+		    ?>	 
+		</div>		
 	</body>
-	</html>
+</html>

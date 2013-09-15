@@ -1,60 +1,38 @@
 <!DOCTYPE html>
-	<html lang="en">
-	<head>
-	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	    <title>Add Courses Form</title>
-	</head>
+<html lang="en">
+	<?php
+		include_once('header.php');
+	?>
 	<body>
-		<?php
-			if(isset($message))
-			{
-				echo $message;
-			}
+		<div class="container">
+		    <form class="form-signin" method="post">
+		    	<h2 class="form-signin-heading">Add New Course</h2>
+			    <p>
+			        <input type="text" class="form-control" placeholder="Course Code" name="course_code" autofocus>
+			    </p>
+			 
+			 	<p>
+			        <input type="text" class="form-control" placeholder="Course Name" name="course_name">
+			    </p>
 
-			if($this->session->flashdata('error'))
-			{
-				echo $this->session->flashdata('error');
-			}
+				<p>
+			        <input type="text" class="form-control" placeholder="Duration In Hours" name="duration_in_hrs">
+			    </p>
 
-			if($this->session->flashdata('success'))
-			{
-				echo $this->session->flashdata('success');
-			}
-		?>
+			    <p>
+			        <input type="text" class="form-control" placeholder="Category" name="category">
+			    </p>
 
-	<div id="course">
-	 
-	    <p class="heading"><h4>Add New Course</h4></p>
+			    <p>
+			    	<button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Add Course</button>
+			    </p>	 
+		    </form>
 
-	    <form method="post">
+		    <hr>
 
-		    <p>
-		        <label for="course_code">Course Code: </label>
-		        <input type="text" name="course_code">
-		    </p>
-		 
-		 	<p>
-		        <label for="course_name">Course Name: </label>
-		        <input type="text" name="course_name">
-		    </p>
-
-			<p>
-		        <label for="duration_in_hrs">Duration in Hours: </label>
-		        <input type="text" name="duration_in_hrs">
-		    </p>
-
-		    <p>
-		        <label for="category">Category: </label>
-		        <input type="category" name="category">
-		    </p>
-
-		    <p>
-		    	<input type="submit" name="submit" value="Add Course">
-		    </p>
-	 
-	    </form>
-	 
-	</div>
-	 
+		    <?php 
+		        include_once('footer.php');
+		    ?>	 
+		</div>	 
 	</body>
-	</html>
+</html>

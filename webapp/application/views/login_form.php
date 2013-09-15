@@ -1,50 +1,29 @@
 <!DOCTYPE html>
-	<html lang="en">
-	<head>
-	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	    <title>Login Form</title>
-	</head>
-	<body>
-		<?php
-			if(isset($message))
-			{
-				echo $message;
-			}
+<html lang="en">
+  <?php
+    include_once('header.php');
+  ?>
 
-			if($this->session->flashdata('error'))
-			{
-				echo $this->session->flashdata('error');
-			}
+  <body>
 
-			if($this->session->flashdata('success'))
-			{
-				echo $this->session->flashdata('success');
-			}
-		?>
-	 
-	<div id="login_form">
-	 
-	   	<p class="heading"><h4>User Login</h4></p>
+    <div class="container">
+      <form class="form-signin" method="post">
+        <h2 class="form-signin-heading">Sign in</h2>
+        <p>
+          <input type="text" class="form-control" placeholder="Username" name="user_name" autofocus>
+        </p>
+        <p>
+          <input type="password" class="form-control" placeholder="Password" name="password">
+        </p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit">Log in</button>
+      </form>
 
-	    <form method='post'>
-	 
-		    <p>
-		        <label for="user_name">Username: </label>
-		        <input type="text" name="user_name">
-		    </p>
+      <hr>
 
-		    <p>
-		        <label for="password">Password: </label>
-		        <input type="password" name="password">
-		    </p>
-		
-		    <p>
-		        <input type="submit" name="submit" value="Login">
-		    </p>
-	 
-	    </form>
-	 
-	</div>
-	 
-	</body>
-	</html>
+      <?php 
+        include_once('footer.php');
+      ?>
+
+    </div> <!-- /container -->
+  </body>
+</html>

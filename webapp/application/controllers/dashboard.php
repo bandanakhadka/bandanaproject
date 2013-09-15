@@ -132,7 +132,9 @@ class Dashboard extends SessionController
 			return $this->load_view('enroll_form',$list);
 		}
 		
-		$enrollment = Enrollment::find_valid_by_course_id_and_member_id($_POST['course_id'],$this->member->id);
+		$enrollment = Enrollment::find_valid_by_course_id_and_member_id_and_is_deleted($_POST['course_id'],$this->member->id,0);
+		$list['courses'] = $courses;
+        $list['flag'] = 1;
 
 		try
 			{
@@ -145,18 +147,12 @@ class Dashboard extends SessionController
 		catch(InactiveException $e)
 		{
 			$list['message'] = $e->getMessage();
-            $list['courses'] = $courses;
-            $list['flag'] = 0;
-
             return $this->load_view('enroll_form',$list);
 		}
 
 		catch(DeletedException $e)
 		{
 			$list['message'] = $e->getMessage();
-            $list['courses'] = $courses;
-            $list['flag'] = 0;
-
             return $this->load_view('enroll_form',$list);
 		}
 

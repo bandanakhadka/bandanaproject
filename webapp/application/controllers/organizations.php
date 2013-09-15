@@ -275,10 +275,8 @@ class Organizations extends CI_Controller
     {
         $organization = Organization::find_by_id($organization_id);
 
-        foreach ($organization->members as $member)
-        {
-            echo $member->first_name." ".$member->last_name."<br>";
-        }
+        $list['members'] = $organization->members;
+        return $this->load->view('members_list',$list);
     }
 
     public function enroll_all_members_in_course($org_id)
